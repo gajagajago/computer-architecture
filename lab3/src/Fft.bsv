@@ -189,17 +189,15 @@ module mkFftSuperFolded(SuperFoldedFft#(radix)) provisos(Div#(TDiv#(FftPoints, 4
   Reg#(StageIdx) stage <- mkReg(0);
 
   rule fft_start(stage == 0 && step == 0);
-  	  $display("Start!");
 	  rg_in <= inFifo.first(); inFifo.deq();
 	  stage <= stage + 1;
   endrule
 
   rule step_Bfly4(stage != 0 && step < fromInteger(valueOf(times))); 
-	  $display("BFLY step %d", step);
-
 	  for (FftIdx i = 0; i < fromInteger(valueOf(radix)); i = i + 1) begin
 	  	Vector#(4, ComplexData) x, twid;
-		let idx = step * fromInteger(valueOf(radix)) * 4 + 4 * i;
+
+		let idx = (step * fromInteger(valueOf(radix)) + i ) * 4;
 		x[0] = rg_in[idx]; x[1] = rg_in[idx+1]; x[2] = rg_in[idx+2]; x[3] = rg_in[idx+3];
 		twid[0] = getTwiddle(stage, idx); twid[1] = getTwiddle(stage, idx+1); twid[2] = getTwiddle(stage, idx+2); twid[3] = getTwiddle(stage, idx+3);
 
@@ -211,16 +209,12 @@ module mkFftSuperFolded(SuperFoldedFft#(radix)) provisos(Div#(TDiv#(FftPoints, 4
   endrule
 
   rule end_steps(stage < 3 && step == fromInteger(valueOf(times)));
-  $display("Reached end of steps");
-	  step <= 0;
-	  stage <= stage + 1;
+	  step <= 0; stage <= stage + 1;
 
 	  Vector#(FftPoints, ComplexData) temp;
-	  for (Integer i = 0; i < 16; i = i+1) begin
-		  for (Integer j = 0; j < 4; j = j+1) begin
+	  for (Integer i = 0; i < valueOf(FftPoints)/4; i = i+1) begin
+		  for (Integer j = 0; j < 4; j = j+1)
 			  temp[i*4+j] = rg_outs[i][j];
-			  $display("idx %d: %x", i*4+j, rg_outs[i][j]);
-		  end
 	  end
 
 	  rg_in <= permute(temp);
@@ -228,16 +222,13 @@ module mkFftSuperFolded(SuperFoldedFft#(radix)) provisos(Div#(TDiv#(FftPoints, 4
 
   rule end_stage(stage == 3 && step == fromInteger(valueOf(times)));
 	  Vector#(FftPoints, ComplexData) temp;
-          for (Integer i = 0; i < 16; i = i+1) begin
-                  for (Integer j = 0; j < 4; j = j+1) begin
+          for (Integer i = 0; i < valueOf(FftPoints)/4; i = i+1) begin
+                  for (Integer j = 0; j < 4; j = j+1)
                           temp[i*4+j] = rg_outs[i][j];
-			  $display("idx %d: %x", i*4+j, rg_outs[i][j]);
-		  end
           end
 
           outFifo.enq(permute(temp));
 	  stage <= 0; step <= 0;
-	  $display("END OF STAGE");
   endrule
 
   method Action enq(Vector#(FftPoints, ComplexData) in);
