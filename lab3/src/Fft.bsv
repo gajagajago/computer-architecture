@@ -243,11 +243,13 @@ module mkFftSuperFolded(SuperFoldedFft#(radix)) provisos(Div#(TDiv#(FftPoints, 4
 
           Vector#(4, ComplexData) twid;
           twid[0] = getTwiddle(stage-1, idx);twid[1] = getTwiddle(stage-1, idx+1);twid[2] = getTwiddle(stage-1, idx+2);twid[3] = getTwiddle(stage-1, idx+3);
+          Vector#(4, ComplexData) twid2;
+          twid2[0] = getTwiddle(stage-1, idx+4);twid2[1] = getTwiddle(stage-1, idx+5);twid2[2] = getTwiddle(stage-1, idx+6);twid2[3] = getTwiddle(stage-1, idx+7);
 
           let y1 = bfly[0].bfly4(twid, x1);
-          let y2 = bfly[1].bfly4(twid, x2);
- 	  rg_outs[idx*2] <= y1; rg_outs[idx*2+1] <= y2;
-
+          let y2 = bfly[1].bfly4(twid2, x2);
+ 	  rg_outs[step*2] <= y1; rg_outs[step*2+1] <= y2;
+	  //$display(rg_outs);
 	  //stage_out[idx] <= y1[0];stage_out[idx+1] <= y1[1];stage_out[idx+2] <= y1[2];stage_out[idx+3] <= y1[3];
 	//  rg_outs[idx] <= y1[0];rg_outs[idx+1] <= y1[1];rg_outs[idx+2] <= y1[2];rg_outs[idx+3] <= y1[3];
 	 // rg_outs[idx+4] <= y2[0];rg_outs[idx+5] <= y2[1];rg_outs[idx+6] <= y2[2];rg_outs[idx+7] <= y2[3];
