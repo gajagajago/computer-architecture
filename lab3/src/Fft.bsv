@@ -241,11 +241,14 @@ module mkFftSuperFolded(SuperFoldedFft#(radix)) provisos(Div#(TDiv#(FftPoints, 4
           x1[0] = rg_in[idx]; x1[1] = rg_in[idx+1]; x1[2] = rg_in[idx+2]; x1[3] = rg_in[idx+3];
           x2[0] = rg_in[idx+4]; x2[1] = rg_in[idx+5]; x2[2] = rg_in[idx+6]; x2[3] = rg_in[idx+7];
 
+	  
           Vector#(4, ComplexData) twid;
-          twid[0] = getTwiddle(stage-1, idx);twid[1] = getTwiddle(stage-1, idx+1);twid[2] = getTwiddle(stage-1, idx+2);twid[3] = getTwiddle(stage-1, idx+3);
+          twid[0] = getTwiddle(stage, idx);twid[1] = getTwiddle(stage, idx+1);twid[2] = getTwiddle(stage, idx+2);twid[3] = getTwiddle(stage, idx+3);
           Vector#(4, ComplexData) twid2;
-          twid2[0] = getTwiddle(stage-1, idx+4);twid2[1] = getTwiddle(stage-1, idx+5);twid2[2] = getTwiddle(stage-1, idx+6);twid2[3] = getTwiddle(stage-1, idx+7);
+          twid2[0] = getTwiddle(stage, idx+4);twid2[1] = getTwiddle(stage, idx+5);twid2[2] = getTwiddle(stage, idx+6);twid2[3] = getTwiddle(stage, idx+7);
+	
 
+	 // Vector#(4, ComplexData) twid;
           let y1 = bfly[0].bfly4(twid, x1);
           let y2 = bfly[1].bfly4(twid2, x2);
  	  rg_outs[step*2] <= y1; rg_outs[step*2+1] <= y2;
@@ -263,21 +266,25 @@ module mkFftSuperFolded(SuperFoldedFft#(radix)) provisos(Div#(TDiv#(FftPoints, 4
 	  //stage <= stage + 1;
 	  Vector#(64, ComplexData) temp;
 	  for (Integer i = 0; i < 16; i = i+1) begin
-		  for (Integer j = 0; j < 4; j = j+1)
+		  for (Integer j = 0; j < 4; j = j+1) begin
 			  temp[i*4+j] = rg_outs[i][j];
+			  $display("idx %d: %x", i*4+j, rg_outs[i][j]);
+		  end
 	  end
 
-	  rg_in <= temp;
+	  rg_in <= permute(temp);
   endrule
 
   rule end_stage(stage == 3 && step == 8);
 	  Vector#(64, ComplexData) temp;
           for (Integer i = 0; i < 16; i = i+1) begin
-                  for (Integer j = 0; j < 4; j = j+1)
+                  for (Integer j = 0; j < 4; j = j+1) begin
                           temp[i*4+j] = rg_outs[i][j];
+			  $display("idx %d: %x", i*4+j, rg_outs[i][j]);
+		  end
           end
 
-          outFifo.enq(temp);
+          outFifo.enq(permute(temp));
 	  stage <= 0; step <= 0;
 	  $display("END OF STAGE");
   endrule
