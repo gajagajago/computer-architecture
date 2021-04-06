@@ -199,7 +199,7 @@ module mkFftSuperFolded(SuperFoldedFft#(radix)) provisos(Div#(TDiv#(FftPoints, 4
 
 	  for (FftIdx i = 0; i < fromInteger(valueOf(radix)); i = i + 1) begin
 	  	Vector#(4, ComplexData) x, twid;
-		let idx = step * fromInteger(valueOf(times)) + 4 * i;
+		let idx = step * fromInteger(valueOf(radix)) * 4 + 4 * i;
 		x[0] = rg_in[idx]; x[1] = rg_in[idx+1]; x[2] = rg_in[idx+2]; x[3] = rg_in[idx+3];
 		twid[0] = getTwiddle(stage, idx); twid[1] = getTwiddle(stage, idx+1); twid[2] = getTwiddle(stage, idx+2); twid[3] = getTwiddle(stage, idx+3);
 
@@ -208,27 +208,9 @@ module mkFftSuperFolded(SuperFoldedFft#(radix)) provisos(Div#(TDiv#(FftPoints, 4
 	  end
 
 	  step <= step + 1;
-	  /*
-	  Vector#(4, ComplexData) x1, x2;
-	  let idx = step * 4 * fromInteger(valueOf(radix)); // 64 / times
-   
- 	  x1[0] = rg_in[idx]; x1[1] = rg_in[idx+1]; x1[2] = rg_in[idx+2]; x1[3] = rg_in[idx+3];
-          x2[0] = rg_in[idx+4]; x2[1] = rg_in[idx+5]; x2[2] = rg_in[idx+6]; x2[3] = rg_in[idx+7];
-
-	 
-          Vector#(4, ComplexData) twid;
-          twid[0] = getTwiddle(stage, idx);twid[1] = getTwiddle(stage, idx+1);twid[2] = getTwiddle(stage, idx+2);twid[3] = getTwiddle(stage, idx+3);
-          Vector#(4, ComplexData) twid2;
-          twid2[0] = getTwiddle(stage, idx+4);twid2[1] = getTwiddle(stage, idx+5);twid2[2] = getTwiddle(stage, idx+6);twid2[3] = getTwiddle(stage, idx+7);
-	
-          let y1 = bfly[0].bfly4(twid, x1);
-          let y2 = bfly[1].bfly4(twid2, x2);
- 	  rg_outs[step*2] <= y1; rg_outs[step*2+1] <= y2;
-	  step <= step + 1;
-	  */
   endrule
 
-  rule end_steps(stage < 3 && step == 8);
+  rule end_steps(stage < 3 && step == fromInteger(valueOf(times)));
   $display("Reached end of steps");
 	  step <= 0;
 	  stage <= stage + 1;
@@ -244,7 +226,7 @@ module mkFftSuperFolded(SuperFoldedFft#(radix)) provisos(Div#(TDiv#(FftPoints, 4
 	  rg_in <= permute(temp);
   endrule
 
-  rule end_stage(stage == 3 && step == 8);
+  rule end_stage(stage == 3 && step == fromInteger(valueOf(times)));
 	  Vector#(FftPoints, ComplexData) temp;
           for (Integer i = 0; i < 16; i = i+1) begin
                   for (Integer j = 0; j < 4; j = j+1) begin
