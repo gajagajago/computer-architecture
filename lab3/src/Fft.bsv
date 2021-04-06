@@ -63,9 +63,7 @@ module mkFftFolded(Fft);
   Fifo#(2, Vector#(FftPoints, ComplexData)) outFifo <- mkCFFifo;
   Vector#(BflysPerStage, Bfly4) bfly <- replicateM(mkBfly4);
   Reg#(Vector#(FftPoints, ComplexData)) sReg <- mkRegU;
-  Reg#(StageIdx) step <- mkReg(0);
-
-  // You can copy & modify the stage_f function in the combinational implementation.
+  Reg#(StageIdx) stageIdx <- mkReg(0);
 
   function Vector#(FftPoints, ComplexData) stage_f(StageIdx stage, Vector#(FftPoints, ComplexData) stage_in);
     Vector#(FftPoints, ComplexData) stage_temp, stage_out;
@@ -90,20 +88,20 @@ module mkFftFolded(Fft);
     return stage_out;
   endfunction
 
-  rule foldedEntry (step == 0);
-    	  sReg <= stage_f(step, inFifo.first());
-	  step <= step + 1;
+  rule foldedEntry (stageIdx == 0);
+    	  sReg <= stage_f(stageIdx, inFifo.first());
+	  stageIdx <= stageIdx + 1;
 	  inFifo.deq();
   endrule
 
-  rule foldedCirculate ((step != 0) && (step < 2));
-  	sReg <= stage_f(step, sReg);
-	step <= step + 1;
+  rule foldedCirculate ((stageIdx != 0) && (stageIdx < 2));
+  	sReg <= stage_f(stageIdx, sReg);
+	stageIdx <= stageIdx + 1;
   endrule
 
-  rule foldedExit (step == 2);
-  	outFifo.enq(stage_f(step, sReg)); 
-	step <= 0;
+  rule foldedExit (stageIdx == 2);
+  	outFifo.enq(stage_f(stageIdx, sReg)); 
+	stageIdx <= 0;
   endrule
 
 
@@ -184,17 +182,125 @@ endinterface
 module mkFftSuperFolded(SuperFoldedFft#(radix)) provisos(Div#(TDiv#(FftPoints, 4), radix, times), Mul#(radix, times, TDiv#(FftPoints, 4)));
   Fifo#(2, Vector#(FftPoints, ComplexData)) inFifo <- mkCFFifo;
   Fifo#(2, Vector#(FftPoints, ComplexData)) outFifo <- mkCFFifo;
+  
   Vector#(radix, Bfly4) bfly <- replicateM(mkBfly4);
+  Reg#(Vector#(64, ComplexData)) rg_in <- mkRegU;
+  Vector#(16, Reg#(Vector#(4, ComplexData))) rg_outs <- replicateM(mkRegU); 
+  Reg#(FftIdx) step <- mkReg(0);
+  Reg#(StageIdx) stage <- mkReg(0);
+//  Reg#(Vector#(64, ComplexData)) stage_out <- mkRegU;
 
-  // You can copy & modify the stage_f function in the combinational implementation.
-  // or divide stage_f function into doFft rule with appropriate modification.
 
-  rule doFft;
-    //TODO: Remove below two lines Implement the rest of this module
-	outFifo.enq(inFifo.first);
-	inFifo.deq;
+/*
+  function Vector#(64, ComplexData) two_bfly4(StageIdx step);
+
+	  Vector#(64, ComplexData) stage_temp, stage_out;
+	  
+	  for (Integer i = 0; i < 8; i = i + 1) begin
+		Integer idx = i * 8;
+		Vector#(4, ComplexData) x1, x2;
+
+		x1[0] = rg_in[step-1][idx]; x1[1] = rg_in[step-1][idx+1]; x1[2] = rg_in[step-1][idx+2]; x1[3] = rg_in[step-1][idx+3];
+                x2[0] = rg_in[step-1][idx+4]; x2[1] = rg_in[step-1][idx+5]; x2[2] = rg_in[step-1][idx+6]; x2[3] = rg_in[step-1][idx+7];
+
+		Vector#(4, ComplexData) twid;
+		twid[0] = getTwiddle(step, 0);twid[1] = getTwiddle(step, 1);twid[2] = getTwiddle(step, 2);twid[3] = getTwiddle(step, 3);
+
+		let y1 = bfly[0].bfly4(twid, x1);
+		let y2 = bfly[1].bfly4(twid, x2);
+
+		stage_temp[idx] = y1[0];stage_temp[idx+1] = y1[1];stage_temp[idx+2] = y1[2];stage_temp[idx+3] = y1[3];
+		stage_temp[idx+4] = y2[0];stage_temp[idx+5] = y2[1];stage_temp[idx+6] = y2[2];stage_temp[idx+7] = y2[3];
+	end
+
+	stage_out = permute(stage_temp);
+
+	return stage_out;
+  endfunction
+*/
+		/*
+  rule fft_start(step == 0);
+	  $display("START FFT");
+	  //step <= step + 1;
+	  //stage <= stage + 1;
+	  rg_in <= inFifo.first(); inFifo.deq();
+  endrule
+*/
+
+  rule fft_start(stage == 0 && step == 0);
+  	  $display("Start!");
+	  rg_in <= inFifo.first(); inFifo.deq();
+	  stage <= stage + 1;
   endrule
 
+  rule step_Bfly4(stage != 0 && step < 8);
+	  $display("BFLY step %d", step);
+// 	  rg_in <= inFifo.first(); inFifo.deq();
+	  Vector#(4, ComplexData) x1, x2;
+	  let idx = step * 8;
+          x1[0] = rg_in[idx]; x1[1] = rg_in[idx+1]; x1[2] = rg_in[idx+2]; x1[3] = rg_in[idx+3];
+          x2[0] = rg_in[idx+4]; x2[1] = rg_in[idx+5]; x2[2] = rg_in[idx+6]; x2[3] = rg_in[idx+7];
+
+          Vector#(4, ComplexData) twid;
+          twid[0] = getTwiddle(stage-1, idx);twid[1] = getTwiddle(stage-1, idx+1);twid[2] = getTwiddle(stage-1, idx+2);twid[3] = getTwiddle(stage-1, idx+3);
+
+          let y1 = bfly[0].bfly4(twid, x1);
+          let y2 = bfly[1].bfly4(twid, x2);
+ 	  rg_outs[idx*2] <= y1; rg_outs[idx*2+1] <= y2;
+
+	  //stage_out[idx] <= y1[0];stage_out[idx+1] <= y1[1];stage_out[idx+2] <= y1[2];stage_out[idx+3] <= y1[3];
+	//  rg_outs[idx] <= y1[0];rg_outs[idx+1] <= y1[1];rg_outs[idx+2] <= y1[2];rg_outs[idx+3] <= y1[3];
+	 // rg_outs[idx+4] <= y2[0];rg_outs[idx+5] <= y2[1];rg_outs[idx+6] <= y2[2];rg_outs[idx+7] <= y2[3];
+	  step <= step + 1;
+  endrule
+
+  rule end_steps(stage < 3 && step == 8);
+  $display("Reached end of steps");
+	  step <= 0;
+	  stage <= stage + 1;
+	  //stage <= stage + 1;
+	  Vector#(64, ComplexData) temp;
+	  for (Integer i = 0; i < 16; i = i+1) begin
+		  for (Integer j = 0; j < 4; j = j+1)
+			  temp[i*4+j] = rg_outs[i][j];
+	  end
+
+	  rg_in <= temp;
+  endrule
+
+  rule end_stage(stage == 3 && step == 8);
+	  Vector#(64, ComplexData) temp;
+          for (Integer i = 0; i < 16; i = i+1) begin
+                  for (Integer j = 0; j < 4; j = j+1)
+                          temp[i*4+j] = rg_outs[i][j];
+          end
+
+          outFifo.enq(temp);
+	  stage <= 0; step <= 0;
+	  $display("END OF STAGE");
+  endrule
+
+
+  /*
+  rule fft_stage_1 (stage == 1);
+	  rg_in[stage] <= two_bfly4(stage);
+	  stage <= stage + 1;
+  endrule
+
+  rule fft_stage_2 (stage == 2);
+          rg_in[stage] <= two_bfly4(stage);
+          stage <= stage + 1;
+  endrule
+
+  rule fft_stage_3 (stage == 3);
+          rg_in[stage] <= two_bfly4(stage);
+          stage <= stage + 1;
+  endrule
+  rule fft_end (step == 8);
+	  outFifo.enq(rg_in);
+	  step <= 0;
+  endrule
+*/
   method Action enq(Vector#(FftPoints, ComplexData) in);
     inFifo.enq(in);
   endmethod
