@@ -28,7 +28,7 @@ function DecodedInst decode(Instruction inst);
 	let funct3    =        inst[ 14 : 12 ];
 	let rs1       =        inst[ 19 : 15 ];
 	let rs2       =        inst[ 24 : 20 ];
-//	let funct7    =        inst[ 31 : 25 ];
+	let funct7    =        inst[ 31 : 25 ];
 	let aluSel    =        inst[30]; // select between Add/Sub, Srl/Sra
 
 	Data immI   = signExtend(inst[31:20]);
@@ -39,18 +39,109 @@ function DecodedInst decode(Instruction inst);
 
 	case (opcode)
 
-	/* TODO: Finish implementing decode.bsv */
-	
-		?: begin
-			dInst.iType = Unsupported;
+                opOpImm: begin
+                        dInst.iType = Alu;
+                        dInst.aluFunc = case (funct3)
+				fnADD: Add;
+				fnSLL: Sll;
+				fnSLT: Slt;
+				fnSLTU: Sltu;
+				fnXOR: Xor;
+				fnSR: (aluSel == 0 ? Srl : Sra);
+				fnOR: Or;
+				fnAND: And;
+			endcase;
+                        dInst.brFunc = NT;
+                        dInst.dst  = tagged Valid rd;
+                        dInst.src1 = tagged Valid rs1;
+                        dInst.src2 = tagged Invalid;
+                        dInst.csr = tagged Invalid;
+                        dInst.imm = tagged Valid immI;
+                end
+
+                opOp: begin
+                        dInst.iType = Alu;
+                        dInst.aluFunc = case(funct3)
+                                fnADD: (aluSel == 0 ? Add : Sub);
+                                fnSLL: Sll;
+                                fnSLT: Slt;
+                                fnSLTU: Sltu;
+                                fnXOR: Xor;
+                                fnSR: (aluSel == 0 ? Srl : Sra);
+                                fnOR: Or;
+                                fnAND: And;
+                        endcase;
+                        dInst.brFunc = NT;
+                        dInst.dst  = tagged Valid rd;
+                        dInst.src1 = tagged Valid rs1;
+                        dInst.src2 = tagged Valid rs2;
+                        dInst.csr = tagged Invalid;
+                        dInst.imm = tagged Invalid;
+                end
+
+		opJal: begin
+			dInst.iType = J;
 			dInst.aluFunc = ?;
-			dInst.brFunc = NT;
-			dInst.dst  = tagged Invalid;
+			dInst.brFunc = AT;
+			dInst.dst  = tagged Valid rd;
 			dInst.src1 = tagged Invalid;
 			dInst.src2 = tagged Invalid;
 			dInst.csr = tagged Invalid;
-			dInst.imm = tagged Invalid;
+			dInst.imm = tagged Valid immJ;
 		end
+		
+		opJalr: begin
+                        dInst.iType = Jr;
+                        dInst.aluFunc = ?;
+                        dInst.brFunc = AT;
+                        dInst.dst  = tagged Valid rd;
+                        dInst.src1 = tagged Valid rs1;
+                        dInst.src2 = tagged Invalid;
+                        dInst.csr = tagged Invalid;
+                        dInst.imm = tagged Valid immI;
+                end
+
+                opBranch: begin
+			Maybe#(BrFunc) brf = case (funct3)
+				fnBEQ: tagged Valid Eq;
+				fnBNE: tagged Valid Neq;
+				fnBLT: tagged Valid Lt;
+				fnBGE: tagged Valid Ge;
+				fnBLTU: tagged Valid Ltu;
+				fnBGEU: tagged Valid Geu;
+			endcase;
+
+                        dInst.iType = Br;
+                        dInst.aluFunc = ?;
+                        dInst.brFunc = fromMaybe(?, brf);
+                        dInst.dst  = tagged Invalid;
+                        dInst.src1 = tagged Valid rs1;
+                        dInst.src2 = tagged Valid rs2;
+                        dInst.csr = tagged Invalid;
+                        dInst.imm = tagged Valid immB;
+                end
+
+                opLoad: begin
+                        dInst.iType = (funct3 == fnLW ? Ld : Unsupported);
+                        dInst.aluFunc = Add;
+                        dInst.brFunc = NT;
+                        dInst.dst  = tagged Valid rd;
+                        dInst.src1 = tagged Valid rs1;
+                        dInst.src2 = tagged Invalid;
+                        dInst.csr = tagged Invalid;
+                        dInst.imm = tagged Valid immI;
+                end
+
+                opStore: begin
+                        dInst.iType = (funct3 == fnSW ? St : Unsupported);
+                        dInst.aluFunc = Add;
+                        dInst.brFunc = NT;
+                        dInst.dst  = tagged Invalid;
+                        dInst.src1 = tagged Valid rs1;
+                        dInst.src2 = tagged Valid rs2;
+                        dInst.csr = tagged Invalid;
+                        dInst.imm = tagged Valid immS;
+                end
 
 		/* DO NOT MODIFY BELOW HERE! */
 		opLui: begin // rd = immU + r0
