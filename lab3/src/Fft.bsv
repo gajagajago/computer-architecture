@@ -30,7 +30,8 @@ module mkFftCombinational(Fft);
 
       for(FftIdx j = 0; j < 4; j = j + 1 )
         stage_temp[idx+j] = y[j];
-    end
+
+	end
 
     stage_out = permute(stage_temp);
 
@@ -145,7 +146,6 @@ module mkFftPipelined(Fft);
 
     return stage_out;
   endfunction
-
 
   rule stage0;
 	  let x = inFifo.first(); inFifo.deq();

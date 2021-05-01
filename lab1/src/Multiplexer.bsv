@@ -14,7 +14,7 @@ function Bit#(1) multiplexer1(Bit#(1) sel, Bit#(1) a, Bit#(1) b);
   	let sel1 = and1(b, sel);
 	let sel0 = and1(a, not1(sel));
 	
-	return or1(sel1, sel0);
+	return or1(sel1, sel0); // sel = 0 -> a sel = 1 -> b
 endfunction
 
 function Bit#(64) multiplexer64(Bit#(1) sel, Bit#(64) a, Bit#(64) b);
