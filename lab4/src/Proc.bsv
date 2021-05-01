@@ -32,6 +32,7 @@ module mkProc(Proc);
   Fifo#(1,ProcStatus) statRedirect <- mkBypassFifo;
 
   Reg#(Instruction)		f2e 	<- mkRegU;
+  Reg#(ExecInst) 	eInst 		<- mkRegU;
 
   Bool memReady = iMem.init.done() && dMem.init.done();
   rule test (!memReady);
@@ -48,13 +49,8 @@ module mkProc(Proc);
     f2e <= inst;  
   endrule
 
-  rule doRest(csrf.started && stat == AOK && stage == Execute);
-    /* TODO: Divide the doExecute rule into doExecute, doMemory and doWriteBack rules */
-    /* The doMemory rule should be skipped whenever it is not required. */
-    let inst   = f2e;
-
-	  /* Decode */
-    DecodedInst dInst = decode(inst);
+  rule doExecute(csrf.started && stat == AOK && stage == Execute);
+    DecodedInst dInst = decode(f2e);
 
     // read general purpose register values 
     let rVal1 = isValid(dInst.src1) ? rf.rd1(validValue(dInst.src1)) : ?;
@@ -62,28 +58,31 @@ module mkProc(Proc);
     let csrVal = isValid(dInst.csr) ? csrf.rd(validValue(dInst.csr)) : ?;
 
     /* Execute */
-    ExecInst eInst = exec(dInst, rVal1, rVal2, pc, ?, csrVal);  
+    let e = exec(dInst, rVal1, rVal2, pc, ?, csrVal);
+    eInst <= e;
 
-    /* Memory */
-    let iType = eInst.iType;
-    case(iType)
-      Ld: begin
-        eInst.data <- dMem.req(MemReq{op: Ld, addr: eInst.addr, data: ?});
+    stage <= (e.iType == Ld || e.iType == St) ? Memory : WriteBack;
+  endrule
+
+  rule doMemory(stage == Memory);
+    case(eInst.iType)
+	    Ld: begin
+		    let memData <- dMem.req(MemReq{op: Ld, addr: eInst.addr, data: ?});
+		    eInst.data <= memData;
 	    end
-		  St: begin
-        let d <- dMem.req(MemReq{op: St, addr: eInst.addr, data: eInst.data});
-		  end
+	    St: let dummy <- dMem.req(MemReq{op: St, addr: eInst.addr, data: eInst.data});
     endcase
 
+    stage <= WriteBack;
+  endrule
 
-	  /* WriteBack */
-    if(isValid(eInst.dst)) begin
+  rule doWriteBack(stage == WriteBack);
+    if(isValid(eInst.dst))
 		  rf.wr(fromMaybe(?, eInst.dst), eInst.data);
-    end
 
     pc <= eInst.brTaken ? eInst.addr : pc + 4;
-
     csrf.wr(eInst.iType == Csrw ? eInst.csr : Invalid, eInst.data);
+
     stage <= Fetch;
   endrule
 
