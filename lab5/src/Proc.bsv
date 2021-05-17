@@ -19,6 +19,13 @@ typedef struct {
   Bool epoch;
 } Fetch2Decode deriving(Bits, Eq);
 
+typedef struct {
+	DecodedInst dInst;
+	Bool epoch;
+	Addr pc;
+	Addr ppc;
+} Decode2Execute deriving(Bits, Eq);
+
 (*synthesize*)
 module mkProc(Proc);
   Reg#(Addr)    pc  <- mkRegU;
@@ -37,6 +44,7 @@ module mkProc(Proc);
   Fifo#(1, Addr)         execRedirect <- mkBypassFifo;
 
   Fifo#(2, Fetch2Decode)  f2d <- mkPipelineFifo;
+  Fifo#(2, Decode2Execute) d2e <- mkPipelineFifo; 
 
   Bool memReady = iMem.init.done() && dMem.init.done();
   rule test (!memReady);
@@ -66,22 +74,27 @@ module mkProc(Proc);
     $display("Fetch : from Pc %d , \n", pc);
   endrule
 
+  rule doDecode(csrf.started && stat == AOK);
+	let x = f2d.first; f2d.deq;
+	if (x.epoch == eEpoch) begin
+		let dInst = decode(x.inst);
+		d2e.enq(Decode2Execute{dInst: dInst, epoch: x.epoch, pc: x.pc, ppc: x.ppc});
+	end
+  endrule
+
   rule doRest(csrf.started && stat == AOK);
 	/* Exercise_1 */
 	/* TODO: 
 	Divide the doRest rule into doDecode, doRest rules 
 	to implement 3-stage pipelined processor */
-
-    let inst   = f2d.first.inst;
-    let pc   = f2d.first.pc;
-    let ppc    = f2d.first.ppc;
-    let iEpoch = f2d.first.epoch;
-    f2d.deq;
+	let x = d2e.first;
+    	let dInst   = x.dInst;
+    	let pc   = x.pc;
+    	let ppc    = x.ppc;
+    	let iEpoch = x.epoch;
+    	d2e.deq;
 
     if(iEpoch == eEpoch) begin
-      	// Decode 
-   	    let dInst = decode(inst);
-
         // Register Read 
         let rVal1 = isValid(dInst.src1) ? rf.rd1(validValue(dInst.src1)) : ?;
         let rVal2 = isValid(dInst.src2) ? rf.rd2(validValue(dInst.src2)) : ?;
