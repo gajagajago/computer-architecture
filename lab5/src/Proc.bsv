@@ -101,16 +101,10 @@ module mkProc(Proc);
 
     	// Execute         
         let eInst = exec(dInst, rVal1, rVal2, pc, ppc, csrVal);               
-        
-	case(dInst.iType)
-		J , Jr , Br : csrf.incInstTypeCnt(Ctr);
-		Ld, St : csrf.incInstTypeCnt(Mem);
-	endcase
 
         if(eInst.mispredict) begin
           eEpoch <= !eEpoch;
           execRedirect.enq(eInst.addr);
-	  csrf.incBPMissCnt;
           $display("jump! :mispredicted, address %d ", eInst.addr);
         end
 
@@ -138,25 +132,25 @@ module mkProc(Proc);
       if (isValid(eInst.dst)) begin
           rf.wr(fromMaybe(?, eInst.dst), eInst.data);
       end
+
+      // Csrf
       csrf.wr(eInst.iType == Csrw ? eInst.csr : Invalid, eInst.data);
 
-      
-	  /* Exercise_3 */
-	  /* TODO:
-	  1. count the number of each instruciton type
-	    Ctr(Control)   : J, Jr, Br
-	    Mem(Memory)    : Ld, St 
-	        
-	  2. count the number of mispredictions */    
+      case(iType)
+                J: csrf.incInstTypeCnt(J_);
+                Jr: csrf.incInstTypeCnt(Jr_);
+                Br: csrf.incInstTypeCnt(Br_);
+                Ld, St : csrf.incInstTypeCnt(Mem);
+      endcase
 
-
-
-	/* Exercise_4 */
-	  /* TODO:
-	  1. Implement incInstTypeCnt method in CsrFile.bsv
-	        
-	  2. count number of mispredictions for each instruction type */    
-
+      if(eInst.mispredict) begin
+              csrf.incBPMissCnt;
+      	      case(iType)
+              	      J: csrf.incMissInstTypeCnt(J_);
+		      Jr: csrf.incMissInstTypeCnt(Jr_);
+		      Br: csrf.incMissInstTypeCnt(Br_);
+	      endcase
+      end
   end
   endrule
 
