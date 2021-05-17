@@ -99,12 +99,18 @@ module mkProc(Proc);
         let rVal2 = isValid(dInst.src2) ? rf.rd2(validValue(dInst.src2)) : ?;
         let csrVal = isValid(dInst.csr) ? csrf.rd(validValue(dInst.csr)) : ?;
 
-    		// Execute         
+    	// Execute         
         let eInst = exec(dInst, rVal1, rVal2, pc, ppc, csrVal);               
         
+	case(dInst.iType)
+		J , Jr , Br : csrf.incInstTypeCnt(Ctr);
+		Ld, St : csrf.incInstTypeCnt(Mem);
+	endcase
+
         if(eInst.mispredict) begin
           eEpoch <= !eEpoch;
           execRedirect.enq(eInst.addr);
+	  csrf.incBPMissCnt;
           $display("jump! :mispredicted, address %d ", eInst.addr);
         end
 
