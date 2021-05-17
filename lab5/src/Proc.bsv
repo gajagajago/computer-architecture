@@ -68,9 +68,8 @@ module mkProc(Proc);
     end
     else begin
       pc <= ppc;
+      f2d.enq(Fetch2Decode{inst:inst, pc:pc, ppc:ppc, epoch:fEpoch});
     end
-
-    f2d.enq(Fetch2Decode{inst:inst, pc:pc, ppc:ppc, epoch:fEpoch}); 
     $display("Fetch : from Pc %d , \n", pc);
   endrule
 
