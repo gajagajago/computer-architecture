@@ -43,30 +43,29 @@ typedef struct {
 module mkProc(Proc);
   Reg#(Addr)    pc  <- mkRegU;
 //	Ehr#(2, Addr) pc <- mkEhr(0);
-  RFile         rf  <- mkBypassRFile;  // Refer to p.20, M10
+  RFile         rf  <- mkBypassRFile; 
   //RFile         rf  <- mkRFile;
   IMemory     iMem  <- mkIMemory;
   DMemory     dMem  <- mkDMemory;
   CsrFile     csrf <- mkCsrFile;
 
-  // Control hazard handling Elements : 2 Epoch registers and one BypassFifo
+  // Control hazard handling Elements : 3 Epoch registers and 2 BypassFifo
   Reg#(Bool) fEpoch <- mkRegU;
   Reg#(Bool) dEpoch <- mkRegU;
   Reg#(Bool) eEpoch <- mkRegU;
   Fifo#(1, Addr)  execRedirect <- mkBypassFifo;
   Fifo#(1, Addr) execRedirectToDecode <- mkBypassFifo; 
 
+  // 4 Pipeline Fifos between stages
   Fifo#(1, Fetch2Decode)  f2d <- mkPipelineFifo;
   Fifo#(1, Decode2Execute)  d2e <- mkPipelineFifo;
   Fifo#(1, Execute2Memory)  e2m <- mkPipelineFifo;
   Fifo#(1, Memory2WriteBack)  m2w <- mkPipelineFifo;
 
-
-  //You should use scoreboard to deal with data hazard. Please, refer to the scoreboard module in lib 
+  // Data hazard handling Element : Scoreboard
   Scoreboard#(4) sb <- mkPipelineScoreboard;
 
-/* TODO: Lab 6-1: Implement 5-stage pipelined processor with scoreboard. 
-   Scoreboard is already implemented. Refer to the scoreboard module and learning materials about scoreboard(ppt). */
+/* TODO: Lab 6-1: Implement 5-stage pipelined processor with scoreboard. */
   rule doFetch(csrf.started);
 //	  let inst = iMem.req(pc[1]);
 //	  let ppcF = pc[1] + 4;
@@ -91,54 +90,48 @@ module mkProc(Proc);
 		  dEpoch <= !dEpoch;
 	  end
 	  else begin
-
-	  let x = f2d.first;
-	  let inst = x.inst;
-	  let pc = x.pc;
-	  let ppc = x.ppc;
-	  let epoch = x.epoch;
-
-	  if(epoch == dEpoch) begin
-
-	  	let dInst = decode(inst);
-	  	let stall = sb.search1(dInst.src1) || sb.search2(dInst.src2);
-
-	 	 if(!stall) begin
-			   let rVal1 = isValid(dInst.src1) ? rf.rd1(validValue(dInst.src1)) : ?;
-		   	let rVal2 = isValid(dInst.src2) ? rf.rd2(validValue(dInst.src2)) : ?;
- 		  	 let csrVal = isValid(dInst.csr) ? csrf.rd(validValue(dInst.csr)) : ?;
-		   
-		 	  d2e.enq(Decode2Execute{dInst:dInst, pc:pc, ppc:ppc, epoch:epoch, rVal1:rVal1, rVal2:rVal2, csrVal:csrVal});
-		   	sb.insert(dInst.dst);
-		   	f2d.deq; // when stall, do not deq from f2d;
-	 	 end
-	 end
-	 else begin
-		 f2d.deq;
-	 end
- end
+		  let x = f2d.first;
+		  let inst = x.inst;
+		  let pc = x.pc;
+		  let ppc = x.ppc;
+	  	  let fEpoch = x.epoch;
+		  
+		  if(fEpoch == dEpoch) begin
+			  let dInst = decode(inst);
+			  let stall = sb.search1(dInst.src1) || sb.search2(dInst.src2);
+			  
+			  if(!stall) begin
+ 				  let rVal1 = isValid(dInst.src1) ? rf.rd1(validValue(dInst.src1)) : ?;
+				  let rVal2 = isValid(dInst.src2) ? rf.rd2(validValue(dInst.src2)) : ?;
+				  let csrVal = isValid(dInst.csr) ? csrf.rd(validValue(dInst.csr)) : ?;
+				  
+				  d2e.enq(Decode2Execute{dInst:dInst, pc:pc, ppc:ppc, epoch:fEpoch, rVal1:rVal1, rVal2:rVal2, csrVal:csrVal});
+				  sb.insert(dInst.dst);
+				  f2d.deq; // when stall, do not deq from f2d;
+			  end
+		  end
+		  else f2d.deq;
+	  end
   endrule
 
   rule doExecute(csrf.started);
 	  let x = d2e.first;
-	  let dInst   = x.dInst;
-	  let pc = x.pc;
-	  let ppc    = x.ppc;
 	  let iEpoch = x.epoch;
-	  let csrVal = x.csrVal;
-	  let rVal1 = x.rVal1;
-	  let rVal2 = x.rVal2;
-	  
-	  if(iEpoch == eEpoch) begin  
+
+	  if(iEpoch == eEpoch) begin 
+		  let dInst = x.dInst;  let csrVal = x.csrVal;
+       	   	  let pc = x.pc;        let ppc = x.ppc;
+		  let rVal1 = x.rVal1;  let rVal2 = x.rVal2;
+			   
 		  let eInst = exec(dInst, rVal1, rVal2, pc, ppc, csrVal);              
 		  e2m.enq(Execute2Memory{eInst:eInst});
-
- 		  if(eInst.mispredict) begin
+			   
+		  if(eInst.mispredict) begin
 			  eEpoch <= !eEpoch;
 			  execRedirect.enq(eInst.addr);
 			  execRedirectToDecode.enq(eInst.addr);
 			  //pc[0] <= eInst.addr;
-          	  end
+		  end
 	  end
 
 	  d2e.deq;
@@ -168,10 +161,10 @@ module mkProc(Proc);
 
   rule doWriteBack(csrf.started);
 	  let eInst = m2w.first.eInst;
-	  if (isValid(eInst.dst)) begin
-	    	  rf.wr(fromMaybe(?, eInst.dst), eInst.data);
-	  end
- 	  csrf.wr(eInst.iType == Csrw ? eInst.csr : Invalid, eInst.data);
+	  
+	  if (isValid(eInst.dst)) rf.wr(fromMaybe(?, eInst.dst), eInst.data);
+	  csrf.wr(eInst.iType == Csrw ? eInst.csr : Invalid, eInst.data);
+	  
 	  sb.remove;
 	  m2w.deq;
   endrule
@@ -184,6 +177,7 @@ module mkProc(Proc);
   method Action hostToCpu(Bit#(32) startpc) if (!csrf.started);
     csrf.start(0);
     eEpoch <= False;
+    dEpoch <= False;
     fEpoch <= False;
     pc <= startpc;
   endmethod
