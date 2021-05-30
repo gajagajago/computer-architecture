@@ -1,0 +1,228 @@
+Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 157 to 65535.
+Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 157 to 65535.
+addi r 2 = r 0 0x700
+default
+
+Cycle          0 ----------------------------------------------------
+reached decode epoch compariosn
+addi r 1 = r 0 0xc
+default
+
+Cycle          1 ----------------------------------------------------
+reached decode epoch compariosn
+jal r 0 0x18
+default
+
+Cycle          2 ----------------------------------------------------
+
+Cycle          3 ----------------------------------------------------
+reached decode epoch compariosn
+addi r 6 = r 0 0x0
+default
+
+Cycle          4 ----------------------------------------------------
+
+Cycle          5 ----------------------------------------------------
+
+Cycle          6 ----------------------------------------------------
+addi r 2 = r 2 0xffffffe0
+default
+
+Cycle          7 ----------------------------------------------------
+reached decode epoch compariosn
+sw [r 2 0x1c] = r 1
+opStore
+
+Cycle          8 ----------------------------------------------------
+reached decode epoch compariosn
+sw [r 2 0x18] = r 8
+opStore
+
+Cycle          9 ----------------------------------------------------
+
+Cycle         10 ----------------------------------------------------
+reached decode epoch compariosn
+addi r 8 = r 2 0x20
+default
+
+Cycle         11 ----------------------------------------------------
+
+Cycle         12 ----------------------------------------------------
+reached decode epoch compariosn
+addi r15 = r 0 0x9
+default
+
+Cycle         13 ----------------------------------------------------
+
+Cycle         14 ----------------------------------------------------
+reached decode epoch compariosn
+sw [r 8 0xffffffec] = r15
+opStore
+
+Cycle         15 ----------------------------------------------------
+
+Cycle         16 ----------------------------------------------------
+reached decode epoch compariosn
+lw r10 = [r 8 0xffffffec]
+opLoad
+
+Cycle         17 ----------------------------------------------------
+
+Cycle         18 ----------------------------------------------------
+reached decode epoch compariosn
+jal r 1 0x20
+default
+
+Cycle         19 ----------------------------------------------------
+
+Cycle         20 ----------------------------------------------------
+reached decode epoch compariosn
+addi r15 = r10 0x0
+default
+
+Cycle         21 ----------------------------------------------------
+
+Cycle         22 ----------------------------------------------------
+
+Cycle         23 ----------------------------------------------------
+addi r 2 = r 2 0xffffffe0
+default
+
+Cycle         24 ----------------------------------------------------
+reached decode epoch compariosn
+sw [r 2 0x1c] = r 1
+opStore
+
+Cycle         25 ----------------------------------------------------
+reached decode epoch compariosn
+sw [r 2 0x18] = r 8
+opStore
+
+Cycle         26 ----------------------------------------------------
+
+Cycle         27 ----------------------------------------------------
+reached decode epoch compariosn
+sw [r 2 0x14] = r 9
+opStore
+
+Cycle         28 ----------------------------------------------------
+
+Cycle         29 ----------------------------------------------------
+reached decode epoch compariosn
+addi r 8 = r 2 0x20
+default
+
+Cycle         30 ----------------------------------------------------
+
+Cycle         31 ----------------------------------------------------
+reached decode epoch compariosn
+sw [r 8 0xffffffec] = r10
+opStore
+
+Cycle         32 ----------------------------------------------------
+
+Cycle         33 ----------------------------------------------------
+reached decode epoch compariosn
+lw r14 = [r 8 0xffffffec]
+opLoad
+
+Cycle         34 ----------------------------------------------------
+
+Cycle         35 ----------------------------------------------------
+reached decode epoch compariosn
+addi r15 = r 0 0x1
+default
+
+Cycle         36 ----------------------------------------------------
+
+Cycle         37 ----------------------------------------------------
+reached decode epoch compariosn
+blt r15 r14 0xc
+opBrach
+
+Cycle         38 ----------------------------------------------------
+
+Cycle         39 ----------------------------------------------------
+reached decode epoch compariosn
+lw r15 = [r 8 0xffffffec]
+opLoad
+
+Cycle         40 ----------------------------------------------------
+
+Cycle         41 ----------------------------------------------------
+reached decode epoch compariosn
+jal r 0 0x30
+default
+
+Cycle         42 ----------------------------------------------------
+
+Cycle         43 ----------------------------------------------------
+reached decode epoch compariosn
+lw r15 = [r 8 0xffffffec]
+opLoad
+
+Cycle         44 ----------------------------------------------------
+
+Cycle         45 ----------------------------------------------------
+
+Cycle         46 ----------------------------------------------------
+addi r10 = r15 0x0
+default
+
+Cycle         47 ----------------------------------------------------
+reached decode epoch compariosn
+lw r 1 = [r 2 0x1c]
+opLoad
+
+Cycle         48 ----------------------------------------------------
+reached decode epoch compariosn
+lw r 8 = [r 2 0x18]
+opLoad
+
+Cycle         49 ----------------------------------------------------
+
+Cycle         50 ----------------------------------------------------
+reached decode epoch compariosn
+lw r 9 = [r 2 0x14]
+opLoad
+
+Cycle         51 ----------------------------------------------------
+
+Cycle         52 ----------------------------------------------------
+reached decode epoch compariosn
+addi r 2 = r 2 0x20
+default
+
+Cycle         53 ----------------------------------------------------
+
+Cycle         54 ----------------------------------------------------
+reached decode epoch compariosn
+jalr r 0 [r 1 0x0]
+default
+
+Cycle         55 ----------------------------------------------------
+
+Cycle         56 ----------------------------------------------------
+reached decode epoch compariosn
+addi r 0 = r 0 0x0
+default
+
+Cycle         57 ----------------------------------------------------
+
+Cycle         58 ----------------------------------------------------
+
+Cycle         59 ----------------------------------------------------
+unsupport 0xaaaaaaaa
+default
+
+Cycle         60 ----------------------------------------------------
+reached decode epoch compariosn
+unsupport 0xaaaaaaaa
+default
+
+Cycle         61 ----------------------------------------------------
+reached decode epoch compariosn
+unsupport 0xaaaaaaaa
+default
+
+Cycle         62 ----------------------------------------------------

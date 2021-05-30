@@ -62,7 +62,7 @@ module mkProc(Proc);
   Reg#(Bool) dEpoch <- mkRegU;
   Reg#(Bool) eEpoch <- mkRegU;
   Fifo#(1, Addr)  execRedirect <- mkBypassFifo;
- // Fifo#(1, Addr)  execRedirect <- mkPipelineFifo;
+  //Fifo#(1, Addr)  execRedirect <- mkPipelineFifo;
   Fifo#(1, Addr) execRedirectToDecode <- mkBypassFifo; 
   //Fifo#(1, Addr)  execRedirectToDecode <- mkPipelineFifo;
 
@@ -71,19 +71,19 @@ module mkProc(Proc);
   //Fifo#(1, Fetch2Decode)  f2d <- mkBypassFifo;
   //Fifo#(1, Decode2Execute)  d2e <- mkBypassFifo;
   //Fifo#(1, Execute2Memory)  e2m <- mkBypassFifo;
-  //Fifo#(1, Memory2WriteBack)  m2w <- mkBypassFifo;
-  Fifo#(1, Fetch2Decode)  f2d <- mkBypassFifo;
-  Fifo#(1, Decode2Execute)  d2e <- mkPipelineFifo;
-  Fifo#(1, Execute2Memory)  e2m <- mkBypassFifo;
   Fifo#(1, Memory2WriteBack)  m2w <- mkBypassFifo;
+  Fifo#(1, Fetch2Decode)  f2d <- mkPipelineFifo;
+  Fifo#(1, Decode2Execute)  d2e <- mkPipelineFifo;
+  Fifo#(1, Execute2Memory)  e2m <- mkPipelineFifo;
+  //Fifo#(1, Memory2WriteBack)  m2w <- mkPipelineFifo;
 
-  //Fifo#(1, ControlSignals) ctrlf2d <- mkPipelineFifo;
-  //Fifo#(1, ControlSignals) ctrld2e <- mkPipelineFifo;
-  //Fifo#(1, ControlSignals) ctrle2m <- mkPipelineFifo;
+  Fifo#(1, ControlSignals) ctrlf2d <- mkPipelineFifo;
+  Fifo#(1, ControlSignals) ctrld2e <- mkPipelineFifo;
+  Fifo#(1, ControlSignals) ctrle2m <- mkPipelineFifo;
   //Fifo#(1, ControlSignals) ctrlm2w <- mkPipelineFifo;
-  Fifo#(1, ControlSignals) ctrlf2d <- mkBypassFifo;
-  Fifo#(1, ControlSignals) ctrld2e <- mkBypassFifo;
-  Fifo#(1, ControlSignals) ctrle2m <- mkBypassFifo;
+  //Fifo#(1, ControlSignals) ctrlf2d <- mkBypassFifo;
+  //Fifo#(1, ControlSignals) ctrld2e <- mkBypassFifo;
+  //Fifo#(1, ControlSignals) ctrle2m <- mkBypassFifo;
   Fifo#(1, ControlSignals) ctrlm2w <- mkBypassFifo;
 
 /* TODO: Lab 6-2: Implement 5-stage pipelined processor with forwarding unit. */
@@ -118,7 +118,7 @@ module mkProc(Proc);
 		       		ctrl = ControlSignals{aluOp:2'b01, aluSrc:1'b0, branch:1'b1, memRead:1'b0, memWrite:1'b0, regWrite:1'b0, memtoReg:1'b0};
 				$display("opBrach");
 			end
-		       default: begin 
+			default: begin 
 			       ctrl = ControlSignals{aluOp:2'b00, aluSrc:1'b0, branch:1'b0, memRead:1'b0, memWrite:1'b0, regWrite:1'b0, memtoReg:1'b0};
 			       $display("default");
 		       end
@@ -145,6 +145,7 @@ module mkProc(Proc);
 		  let ctrl = ctrlf2d.first;
 
 		  if(fEpoch == dEpoch) begin
+			  $display("reached decode epoch compariosn");
 			  let dInst = decode(inst);
 			  Bool stall = False; //temp
 			  if(!stall) begin
@@ -175,24 +176,40 @@ module mkProc(Proc);
 		  let rVal1 = x.rVal1;  let rVal2 = x.rVal2;
 
 		  // Exec hazard detection
-		  
-			   
+		  if(e2m.notEmpty) begin
+
+		  	let e2mInst = e2m.first.eInst; // ex < mem // this is where the prob is.
+		  	let e2mInstDst = fromMaybe(?, e2mInst.dst);
+		  	let e2mCtrl = ctrle2m.first; // e2m control is write
+		  	Bit#(2) forwardA = 2'b00;
+		  	Bit#(2) forwardB = 2'b00;
+
+		  	if ( (e2mCtrl.regWrite == 1'b1) && (e2mInstDst != 0) ) begin
+				  if (e2mInstDst == fromMaybe(?, dInst.src1)) forwardA = 2'b10;
+			  	if (e2mInstDst == fromMaybe(?, dInst.src2)) forwardB = 2'b10;
+		 	 end
+
+		  	if (forwardA == 2'b10) rVal1 = e2mInst.data;
+		  	if (forwardB == 2'b10) rVal2 = e2mInst.data;
+		end
 		  let eInst = exec(dInst, rVal1, rVal2, pc, ppc, csrVal);              
+		  
 		  e2m.enq(Execute2Memory{eInst:eInst});
-			   
+		  ctrle2m.enq(ctrld2e.first);
+
 		  if(eInst.mispredict) begin
 			  eEpoch <= !eEpoch;
 			  execRedirect.enq(eInst.addr);
 			  execRedirectToDecode.enq(eInst.addr);
-			  //pc[0] <= eInst.addr;
 		  end
 	  end
-
-	 // ctrld2e.deq;
+	  
+	  ctrld2e.deq;
 	  d2e.deq;
   endrule
 
   rule doMemory(csrf.started);
+	  ctrle2m.deq;
 	  let eInst = e2m.first.eInst;
   	  let iType = eInst.iType;
 	  

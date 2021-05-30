@@ -1,0 +1,53 @@
+Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 12 to 65535.
+Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 12 to 65535.
+ori r16 = r 0 0x1
+default
+
+Cycle          0 ----------------------------------------------------
+reached decode epoch compariosn
+ori r16 = r16 0x2
+default
+
+Cycle          1 ----------------------------------------------------
+reached decode epoch compariosn
+ori r16 = r16 0x4
+default
+
+Cycle          2 ----------------------------------------------------
+
+Cycle          3 ----------------------------------------------------
+reached decode epoch compariosn
+ori r16 = r16 0x8
+default
+
+Cycle          4 ----------------------------------------------------
+
+Cycle          5 ----------------------------------------------------
+reached decode epoch compariosn
+addi r10 = r16 0xfffffff1
+default
+
+Cycle          6 ----------------------------------------------------
+
+Cycle          7 ----------------------------------------------------
+reached decode epoch compariosn
+csrrw r 0 csr0x780 r10
+default
+
+Cycle          8 ----------------------------------------------------
+
+Cycle          9 ----------------------------------------------------
+reached decode epoch compariosn
+addi r 0 = r 0 0x0
+default
+
+Cycle         10 ----------------------------------------------------
+
+Cycle         11 ----------------------------------------------------
+reached decode epoch compariosn
+addi r 0 = r 0 0x0
+default
+
+Cycle         12 ----------------------------------------------------
+
+Cycle         13 ----------------------------------------------------
