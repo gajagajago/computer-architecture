@@ -74,8 +74,8 @@ module mkProc(Proc);
   //Fifo#(1, Memory2WriteBack)  m2w <- mkBypassFifo;
   Fifo#(1, Fetch2Decode)  f2d <- mkBypassFifo;
   Fifo#(1, Decode2Execute)  d2e <- mkPipelineFifo;
-  Fifo#(1, Execute2Memory)  e2m <- mkPipelineFifo;
-  Fifo#(1, Memory2WriteBack)  m2w <- mkPipelineFifo;
+  Fifo#(1, Execute2Memory)  e2m <- mkBypassFifo;
+  Fifo#(1, Memory2WriteBack)  m2w <- mkBypassFifo;
 
   //Fifo#(1, ControlSignals) ctrlf2d <- mkPipelineFifo;
   //Fifo#(1, ControlSignals) ctrld2e <- mkPipelineFifo;
@@ -173,6 +173,9 @@ module mkProc(Proc);
 		  let dInst = x.dInst;  let csrVal = x.csrVal;
        	   	  let pc = x.pc;        let ppc = x.ppc;
 		  let rVal1 = x.rVal1;  let rVal2 = x.rVal2;
+
+		  // Exec hazard detection
+		  
 			   
 		  let eInst = exec(dInst, rVal1, rVal2, pc, ppc, csrVal);              
 		  e2m.enq(Execute2Memory{eInst:eInst});
