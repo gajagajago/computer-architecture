@@ -11,7 +11,7 @@ import CsrFile::*;
 import Fifo::*;
 //import Scoreboard::*;
 import GetPut::*;
-//import Ehr::*;
+import Ehr::*;
 
 typedef struct {
   Instruction inst;
@@ -50,9 +50,7 @@ typedef struct {
 (*synthesize*)
 module mkProc(Proc);
   Reg#(Addr)    pc  <- mkRegU;
-//	Ehr#(2, Addr) pc <- mkEhr(0);
   RFile         rf  <- mkBypassRFile; 
-  //RFile         rf  <- mkRFile;
   IMemory     iMem  <- mkIMemory;
   DMemory     dMem  <- mkDMemory;
   CsrFile     csrf <- mkCsrFile;
@@ -77,7 +75,7 @@ module mkProc(Proc);
   Fifo#(1, Execute2Memory)  e2m <- mkPipelineFifo;
   //Fifo#(1, Memory2WriteBack)  m2w <- mkPipelineFifo;
 
-  Fifo#(1, ControlSignals) ctrlf2d <- mkPipelineFifo;
+  //Fifo#(1, ControlSignals) ctrlf2d <- mkPipelineFifo;
   Fifo#(1, ControlSignals) ctrld2e <- mkPipelineFifo;
   Fifo#(1, ControlSignals) ctrle2m <- mkPipelineFifo;
   //Fifo#(1, ControlSignals) ctrlm2w <- mkPipelineFifo;
@@ -85,6 +83,8 @@ module mkProc(Proc);
   //Fifo#(1, ControlSignals) ctrld2e <- mkBypassFifo;
   //Fifo#(1, ControlSignals) ctrle2m <- mkBypassFifo;
   Fifo#(1, ControlSignals) ctrlm2w <- mkBypassFifo;
+
+ // Fifo#(1, Bit#(1)) stallSignd2f <- mkPipelineFifo;
 
 /* TODO: Lab 6-2: Implement 5-stage pipelined processor with forwarding unit. */
   rule doFetch(csrf.started);
@@ -97,37 +97,19 @@ module mkProc(Proc);
 	  	  let inst = iMem.req(pc);
 		  //pretty print instruction of current cycle
 		  let show = showInst(inst);
-		  $display(show);
+		  $display("Inst at Fetch : ");		  
+ 		  $display(show);
 
-		  Opcode opcode = getICode(inst);
-		  let ctrl;
-		  case(opcode)
- 			  opOp: begin 
-				  ctrl = ControlSignals{aluOp:2'b10, aluSrc:1'b0, branch:1'b0, memRead:1'b0, memWrite:1'b0, regWrite:1'b1, memtoReg:1'b0};
-				  $display("opOp");
-			  end
- 			 opLoad: begin 
-				 ctrl = ControlSignals{aluOp:2'b00, aluSrc:1'b1, branch:1'b0, memRead:1'b1, memWrite:1'b0, regWrite:1'b1, memtoReg:1'b1};
-				 $display("opLoad");
-			 end
- 			opStore: begin
-				ctrl = ControlSignals{aluOp:2'b00, aluSrc:1'b1, branch:1'b0, memRead:1'b0, memWrite:1'b1, regWrite:1'b0, memtoReg:1'b0};
-				$display("opStore");
-			end
- 		       opBranch: begin 
-		       		ctrl = ControlSignals{aluOp:2'b01, aluSrc:1'b0, branch:1'b1, memRead:1'b0, memWrite:1'b0, regWrite:1'b0, memtoReg:1'b0};
-				$display("opBrach");
-			end
-			default: begin 
-			       ctrl = ControlSignals{aluOp:2'b00, aluSrc:1'b0, branch:1'b0, memRead:1'b0, memWrite:1'b0, regWrite:1'b0, memtoReg:1'b0};
-			       $display("default");
-		       end
-		  endcase
-
-		  ctrlf2d.enq(ctrl);
-      	    	  let ppc = pc + 4;
-	  	  f2d.enq(Fetch2Decode{inst:inst, pc:pc, ppc:ppc, epoch:fEpoch});
-	  	  pc <= ppc;
+		  //if(stallSignd2f.notEmpty) begin
+		//	  stallSignd2f.deq;
+		//	  $display("currently stalled, Fetch do not update pc");
+		  //end
+		 // else begin
+			  $display("not in stall condition. update pc and f2d");
+			  let ppc = pc + 4;
+			  f2d.enq(Fetch2Decode{inst:inst, pc:pc, ppc:ppc, epoch:fEpoch});
+			  pc <= ppc;
+		 // end
  	  end
   endrule
 
@@ -137,32 +119,66 @@ module mkProc(Proc);
 		  dEpoch <= !dEpoch;
 	  end
 	  else begin
-		  let x = f2d.first;
+		  let x = f2d.first;// f2d.deq;
 		  let inst = x.inst;
 		  let pc = x.pc;
 		  let ppc = x.ppc;
 	  	  let fEpoch = x.epoch;
-		  let ctrl = ctrlf2d.first;
 
 		  if(fEpoch == dEpoch) begin
-			  $display("reached decode epoch compariosn");
+			  $display("reached decode epoch comparison");
 			  let dInst = decode(inst);
-			  Bool stall = False; //temp
+
+			  // Generate Control Signals for d2e, e2m, m2w
+			  let ctrl;
+			  Opcode opcode = getICode(inst);
+ 
+                          case(opcode)
+                         	  opOp: begin
+                         		  ctrl = ControlSignals{aluOp:2'b10, aluSrc:1'b0, branch:1'b0, memRead:1'b0, memWrite:1'b0, regWrite:1'b1, memtoReg:1'b0};
+                 	                 $display("opOp");
+                        	  end
+                        	 opLoad: begin
+                                	 ctrl = ControlSignals{aluOp:2'b00, aluSrc:1'b1, branch:1'b0, memRead:1'b1, memWrite:1'b0, regWrite:1'b1, memtoReg:1'b1};
+                                 	$display("opLoad");
+                         	end
+                        	opStore: begin
+                                	ctrl = ControlSignals{aluOp:2'b00, aluSrc:1'b1, branch:1'b0, memRead:1'b0, memWrite:1'b1, regWrite:1'b0, memtoReg:1'b0};
+                                	$display("opStore");
+                        	end
+                       		opBranch: begin
+                               		 ctrl = ControlSignals{aluOp:2'b01, aluSrc:1'b0, branch:1'b1, memRead:1'b0, memWrite:1'b0, regWrite:1'b0, memtoReg:1'b0};
+                                	$display("opBrach");
+                        	end
+                        	default: begin
+                               		ctrl = ControlSignals{aluOp:2'b00, aluSrc:1'b0, branch:1'b0, memRead:1'b0, memWrite:1'b0, regWrite:1'b0, memtoReg:1'b0};
+                               		$display("default");
+                       		end
+			  endcase
+
+
+			  Bool stall = (ctrl.memRead == 1'b1 && ((fromMaybe(?,d2e.first.dInst.dst) == fromMaybe(?,dInst.src1)) || (fromMaybe(?,d2e.first.dInst.dst) == fromMaybe(?,dInst.src2))));
+
 			  if(!stall) begin
- 				  let rVal1 = isValid(dInst.src1) ? rf.rd1(validValue(dInst.src1)) : ?;
-				  let rVal2 = isValid(dInst.src2) ? rf.rd2(validValue(dInst.src2)) : ?;
-				  let csrVal = isValid(dInst.csr) ? csrf.rd(validValue(dInst.csr)) : ?;
-				  
-				  d2e.enq(Decode2Execute{dInst:dInst, pc:pc, ppc:ppc, epoch:fEpoch, rVal1:rVal1, rVal2:rVal2, csrVal:csrVal});
-				  f2d.deq; // when stall, do not deq from f2d;
-				  ctrld2e.enq(ctrl);
-				  ctrlf2d.deq;
+				  ctrld2e.enq(ctrl); // Original ctrl is passed to d2e
+				  f2d.deq;
 			  end
+			  else begin // Stall condition
+				  // ctrl value for ID/EX = 0 
+				  ctrld2e.enq(ControlSignals{aluOp:2'b00, aluSrc:1'b0, branch:1'b0, memRead:1'b0, memWrite:1'b0, regWrite:1'b0, memtoReg:1'b0});
+				  // not update pc and IF/ID reg
+				  // stallSignd2f.enq(1'b1);
+				  // when stall, do not deq from f2d
+			  end
+
+			  // No matter stall or not stall, still enq inst into d2e
+			  let rVal1 = isValid(dInst.src1) ? rf.rd1(validValue(dInst.src1)) : ?;
+                          let rVal2 = isValid(dInst.src2) ? rf.rd2(validValue(dInst.src2)) : ?;
+                          let csrVal = isValid(dInst.csr) ? csrf.rd(validValue(dInst.csr)) : ?;
+                          
+			  d2e.enq(Decode2Execute{dInst:dInst, pc:pc, ppc:ppc, epoch:fEpoch, rVal1:rVal1, rVal2:rVal2, csrVal:csrVal});
 		  end
-		  else begin
-			  f2d.deq;
-			  ctrlf2d.deq;
-		  end
+		  else f2d.deq;
 	  end
   endrule
 
@@ -175,23 +191,39 @@ module mkProc(Proc);
        	   	  let pc = x.pc;        let ppc = x.ppc;
 		  let rVal1 = x.rVal1;  let rVal2 = x.rVal2;
 
+		  Bool execHazardA = False; Bool execHazardB = False;
+		  Bool memHazardA = False; Bool memHazardB = False;
+
 		  // Exec hazard detection
 		  if(e2m.notEmpty) begin
 
 		  	let e2mInst = e2m.first.eInst; // ex < mem // this is where the prob is.
 		  	let e2mInstDst = fromMaybe(?, e2mInst.dst);
 		  	let e2mCtrl = ctrle2m.first; // e2m control is write
-		  	Bit#(2) forwardA = 2'b00;
-		  	Bit#(2) forwardB = 2'b00;
 
 		  	if ( (e2mCtrl.regWrite == 1'b1) && (e2mInstDst != 0) ) begin
-				  if (e2mInstDst == fromMaybe(?, dInst.src1)) forwardA = 2'b10;
-			  	if (e2mInstDst == fromMaybe(?, dInst.src2)) forwardB = 2'b10;
+				if (e2mInstDst == fromMaybe(?, dInst.src1)) execHazardA = True;
+			  	if (e2mInstDst == fromMaybe(?, dInst.src2)) execHazardB = True;
 		 	 end
 
-		  	if (forwardA == 2'b10) rVal1 = e2mInst.data;
-		  	if (forwardB == 2'b10) rVal2 = e2mInst.data;
-		end
+		  	if (execHazardA) rVal1 = e2mInst.data;
+		  	if (execHazardB) rVal2 = e2mInst.data;
+		  end
+
+		  if(m2w.notEmpty) begin
+		  	let m2wInst = m2w.first.eInst;
+			let m2wInstDst = fromMaybe(?, m2wInst.dst);
+			let m2wCtrl = ctrlm2w.first;
+
+			if ( (m2wCtrl.regWrite == 1'b1) && (m2wInstDst != 0)) begin
+				if ((!execHazardA) && (m2wInstDst == fromMaybe(?, dInst.src1))) memHazardA = True;
+				if ((!execHazardB) && (m2wInstDst == fromMaybe(?, dInst.src2))) memHazardB = True;
+			end
+
+			if (memHazardA) rVal1 = m2wInst.data;
+			if (memHazardB) rVal2 = m2wInst.data;
+		  end
+
 		  let eInst = exec(dInst, rVal1, rVal2, pc, ppc, csrVal);              
 		  
 		  e2m.enq(Execute2Memory{eInst:eInst});
@@ -210,6 +242,7 @@ module mkProc(Proc);
 
   rule doMemory(csrf.started);
 	  ctrle2m.deq;
+
 	  let eInst = e2m.first.eInst;
   	  let iType = eInst.iType;
 	  
@@ -229,9 +262,11 @@ module mkProc(Proc);
 
 	  m2w.enq(Memory2WriteBack{eInst:eInst});
 	  e2m.deq;
+	  ctrlm2w.enq(ctrle2m.first);
   endrule
 
   rule doWriteBack(csrf.started);
+	  ctrlm2w.deq;
 	  let eInst = m2w.first.eInst;
 	  
 	  if (isValid(eInst.dst)) rf.wr(fromMaybe(?, eInst.dst), eInst.data);

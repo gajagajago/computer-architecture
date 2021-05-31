@@ -1,60 +1,75 @@
 Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 13 to 65535.
 Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 13 to 65535.
+Inst at Fetch : 
 addi r10 = r 0 0x0
-default
+not in stall condition. update pc and f2d
 
 Cycle          0 ----------------------------------------------------
-reached decode epoch compariosn
-addi r11 = r 0 0x3c
+reached decode epoch comparison
 default
+Inst at Fetch : 
+addi r11 = r 0 0x3c
+not in stall condition. update pc and f2d
 
 Cycle          1 ----------------------------------------------------
-reached decode epoch compariosn
-addi r12 = r 0 0x3d
-default
 
 Cycle          2 ----------------------------------------------------
+reached decode epoch comparison
+default
+Inst at Fetch : 
+addi r12 = r 0 0x3d
+not in stall condition. update pc and f2d
 
 Cycle          3 ----------------------------------------------------
-reached decode epoch compariosn
-bge r12 r11 0x8
-opBrach
 
 Cycle          4 ----------------------------------------------------
+reached decode epoch comparison
+default
+Inst at Fetch : 
+bge r12 r11 0x8
+not in stall condition. update pc and f2d
 
 Cycle          5 ----------------------------------------------------
-reached decode epoch compariosn
-addi r10 = r 0 0x1
-default
 
 Cycle          6 ----------------------------------------------------
+reached decode epoch comparison
+opBrach
+Inst at Fetch : 
+addi r10 = r 0 0x1
+not in stall condition. update pc and f2d
 
 Cycle          7 ----------------------------------------------------
-reached decode epoch compariosn
-addi r10 = r10 0x0
-default
 
 Cycle          8 ----------------------------------------------------
 
 Cycle          9 ----------------------------------------------------
-reached decode epoch compariosn
-csrrw r 0 csr0x780 r10
-default
+Inst at Fetch : 
+addi r10 = r10 0x0
+not in stall condition. update pc and f2d
 
 Cycle         10 ----------------------------------------------------
+reached decode epoch comparison
+default
+Inst at Fetch : 
+csrrw r 0 csr0x780 r10
+not in stall condition. update pc and f2d
 
 Cycle         11 ----------------------------------------------------
-reached decode epoch compariosn
-addi r 0 = r 0 0x0
-default
 
 Cycle         12 ----------------------------------------------------
+reached decode epoch comparison
+default
+Inst at Fetch : 
+addi r 0 = r 0 0x0
+not in stall condition. update pc and f2d
 
 Cycle         13 ----------------------------------------------------
-reached decode epoch compariosn
-addi r 0 = r 0 0x0
-default
 
 Cycle         14 ----------------------------------------------------
+reached decode epoch comparison
+default
+Inst at Fetch : 
+addi r 0 = r 0 0x0
+not in stall condition. update pc and f2d
 
 Cycle         15 ----------------------------------------------------
