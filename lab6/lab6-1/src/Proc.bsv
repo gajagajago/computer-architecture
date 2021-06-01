@@ -67,10 +67,7 @@ module mkProc(Proc);
 
 /* TODO: Lab 6-1: Implement 5-stage pipelined processor with scoreboard. */
   rule doFetch(csrf.started);
-//	  let inst = iMem.req(pc[1]);
-//	  let ppcF = pc[1] + 4;
-//	  f2d.enq(Fetch2Decode{inst:inst, pc:pc[1], ppc:ppcF, epoch:fEpoch});
-//	  pc[1] <= ppcF;
+	  $display("fetch");
 	  if(execRedirect.notEmpty) begin
       	    	  execRedirect.deq;
       	    	  pc <= execRedirect.first;
@@ -78,13 +75,16 @@ module mkProc(Proc);
 	  end
 	  else begin
 	  	  let inst = iMem.req(pc);
-      	    	  let ppc = pc + 4;
+		  $display(showInst(inst));
+      	    	  $display("pc: ", pc);
+		  let ppc = pc + 4;
 	  	  f2d.enq(Fetch2Decode{inst:inst, pc:pc, ppc:ppc, epoch:fEpoch});
 	  	  pc <= ppc;
  	  end
   endrule
 
   rule doDecode(csrf.started);
+	  $display("decode");
 	  if (execRedirectToDecode.notEmpty) begin
 		  execRedirectToDecode.deq;
 		  dEpoch <= !dEpoch;
@@ -115,6 +115,7 @@ module mkProc(Proc);
   endrule
 
   rule doExecute(csrf.started);
+	  $display("execute");
 	  let x = d2e.first;
 	  let iEpoch = x.epoch;
 
@@ -138,6 +139,7 @@ module mkProc(Proc);
   endrule
 
   rule doMemory(csrf.started);
+	  $display("memory");
 	  let eInst = e2m.first.eInst;
   	  let iType = eInst.iType;
 	  
@@ -160,6 +162,7 @@ module mkProc(Proc);
   endrule
 
   rule doWriteBack(csrf.started);
+	  $display("writeback");
 	  let eInst = m2w.first.eInst;
 	  
 	  if (isValid(eInst.dst)) rf.wr(fromMaybe(?, eInst.dst), eInst.data);

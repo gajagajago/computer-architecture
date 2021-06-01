@@ -1,30 +1,98 @@
 Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 13 to 65535.
 Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 13 to 65535.
+fetch
+addi r10 = r 0 0x0
+pc:          0
 
 Cycle          0 ----------------------------------------------------
+decode
+fetch
+addi r11 = r 0 0x3d
+pc:          4
 
 Cycle          1 ----------------------------------------------------
+execute
+decode
+fetch
+addi r12 = r 0 0x3d
+pc:          8
 
 Cycle          2 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+beq r28 r 5 0x8
+pc:         12
 
 Cycle          3 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
+addi r10 = r 0 0x1
+pc:         16
 
 Cycle          4 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
 
 Cycle          5 ----------------------------------------------------
+writeback
+memory
+decode
+fetch
+addi r10 = r10 0x0
+pc:         20
 
 Cycle          6 ----------------------------------------------------
+writeback
+decode
+fetch
+csrrw r 0 csr0x780 r10
+pc:         24
 
 Cycle          7 ----------------------------------------------------
+execute
+decode
 
 Cycle          8 ----------------------------------------------------
+memory
+decode
 
 Cycle          9 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         28
 
 Cycle         10 ----------------------------------------------------
+execute
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         32
 
 Cycle         11 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         36
 
 Cycle         12 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         40
 
 Cycle         13 ----------------------------------------------------

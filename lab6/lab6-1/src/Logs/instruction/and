@@ -1,52 +1,157 @@
 Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 17 to 65535.
 Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 17 to 65535.
+fetch
+addi r16 = r 0 0xf
+pc:          0
 
 Cycle          0 ----------------------------------------------------
+decode
+fetch
+addi r12 = r 0 0x7
+pc:          4
 
 Cycle          1 ----------------------------------------------------
+execute
+decode
+fetch
+addi r13 = r 0 0x3
+pc:          8
 
 Cycle          2 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+addi r14 = r 0 0x1
+pc:         12
 
 Cycle          3 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
+addi r15 = r 0 0x0
+pc:         16
 
 Cycle          4 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
+and r16 = r16 r12
+pc:         20
 
 Cycle          5 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
+and r16 = r16 r13
+pc:         24
 
 Cycle          6 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle          7 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle          8 ----------------------------------------------------
+writeback
+decode
+fetch
+and r16 = r16 r14
+pc:         28
 
 Cycle          9 ----------------------------------------------------
+execute
+decode
 
 Cycle         10 ----------------------------------------------------
+memory
+decode
 
 Cycle         11 ----------------------------------------------------
+writeback
+decode
+fetch
+and r16 = r16 r15
+pc:         32
 
 Cycle         12 ----------------------------------------------------
+execute
+decode
 
 Cycle         13 ----------------------------------------------------
+memory
+decode
 
 Cycle         14 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r10 = r16 0x0
+pc:         36
 
 Cycle         15 ----------------------------------------------------
+execute
+decode
 
 Cycle         16 ----------------------------------------------------
+memory
+decode
 
 Cycle         17 ----------------------------------------------------
+writeback
+decode
+fetch
+csrrw r 0 csr0x780 r10
+pc:         40
 
 Cycle         18 ----------------------------------------------------
+execute
+decode
 
 Cycle         19 ----------------------------------------------------
+memory
+decode
 
 Cycle         20 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         44
 
 Cycle         21 ----------------------------------------------------
+execute
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         48
 
 Cycle         22 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         52
 
 Cycle         23 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         56
 
 Cycle         24 ----------------------------------------------------

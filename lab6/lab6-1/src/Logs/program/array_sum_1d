@@ -1,2540 +1,7389 @@
 Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 155 to 65535.
 Warning: file 'memory.vmh' for memory 'mem' has a gap at addresses 155 to 65535.
+fetch
+addi r 2 = r 0 0x700
+pc:          0
 
 Cycle          0 ----------------------------------------------------
+decode
+fetch
+addi r 1 = r 0 0xc
+pc:          4
 
 Cycle          1 ----------------------------------------------------
+execute
+decode
+fetch
+jal r 0 0x18
+pc:          8
 
 Cycle          2 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+addi r 6 = r 0 0x0
+pc:         12
 
 Cycle          3 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
 
 Cycle          4 ----------------------------------------------------
+writeback
+memory
+decode
+fetch
+addi r 2 = r 2 0xffffff90
+pc:         32
 
 Cycle          5 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 2 0x6c] = r 8
+pc:         36
 
 Cycle          6 ----------------------------------------------------
+execute
+decode
 
 Cycle          7 ----------------------------------------------------
+memory
+decode
 
 Cycle          8 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r 8 = r 2 0x70
+pc:         40
 
 Cycle          9 ----------------------------------------------------
+execute
+decode
+fetch
+sw [r 8 0xffffffec] = r 0
+pc:         44
 
 Cycle         10 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         11 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         12 ----------------------------------------------------
+writeback
+decode
+fetch
+jal r 0 0x2c
+pc:         48
 
 Cycle         13 ----------------------------------------------------
+execute
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle         14 ----------------------------------------------------
+memory
+execute
+decode
+fetch
 
 Cycle         15 ----------------------------------------------------
+writeback
+memory
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle         16 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle         17 ----------------------------------------------------
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle         18 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         19 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         20 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle         21 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle         22 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle         23 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle         24 ----------------------------------------------------
+execute
+decode
 
 Cycle         25 ----------------------------------------------------
+memory
+decode
 
 Cycle         26 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle         27 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle         28 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         29 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         30 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle         31 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle         32 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         33 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         34 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle         35 ----------------------------------------------------
+execute
+decode
 
 Cycle         36 ----------------------------------------------------
+memory
+decode
 
 Cycle         37 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle         38 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle         39 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         40 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         41 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle         42 ----------------------------------------------------
+execute
+decode
 
 Cycle         43 ----------------------------------------------------
+memory
+decode
 
 Cycle         44 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle         45 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle         46 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle         47 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle         48 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         49 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle         50 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle         51 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle         52 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle         53 ----------------------------------------------------
+execute
+decode
 
 Cycle         54 ----------------------------------------------------
+memory
+decode
 
 Cycle         55 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle         56 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle         57 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         58 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         59 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle         60 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle         61 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         62 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         63 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle         64 ----------------------------------------------------
+execute
+decode
 
 Cycle         65 ----------------------------------------------------
+memory
+decode
 
 Cycle         66 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle         67 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle         68 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         69 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         70 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle         71 ----------------------------------------------------
+execute
+decode
 
 Cycle         72 ----------------------------------------------------
+memory
+decode
 
 Cycle         73 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle         74 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle         75 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle         76 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle         77 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         78 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle         79 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle         80 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle         81 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle         82 ----------------------------------------------------
+execute
+decode
 
 Cycle         83 ----------------------------------------------------
+memory
+decode
 
 Cycle         84 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle         85 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle         86 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         87 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         88 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle         89 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle         90 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         91 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         92 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle         93 ----------------------------------------------------
+execute
+decode
 
 Cycle         94 ----------------------------------------------------
+memory
+decode
 
 Cycle         95 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle         96 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle         97 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle         98 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle         99 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        100 ----------------------------------------------------
+execute
+decode
 
 Cycle        101 ----------------------------------------------------
+memory
+decode
 
 Cycle        102 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        103 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        104 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        105 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        106 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        107 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        108 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        109 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        110 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        111 ----------------------------------------------------
+execute
+decode
 
 Cycle        112 ----------------------------------------------------
+memory
+decode
 
 Cycle        113 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        114 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        115 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        116 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        117 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        118 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        119 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        120 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        121 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        122 ----------------------------------------------------
+execute
+decode
 
 Cycle        123 ----------------------------------------------------
+memory
+decode
 
 Cycle        124 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        125 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        126 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        127 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        128 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        129 ----------------------------------------------------
+execute
+decode
 
 Cycle        130 ----------------------------------------------------
+memory
+decode
 
 Cycle        131 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        132 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        133 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        134 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        135 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        136 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        137 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        138 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        139 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        140 ----------------------------------------------------
+execute
+decode
 
 Cycle        141 ----------------------------------------------------
+memory
+decode
 
 Cycle        142 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        143 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        144 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        145 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        146 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        147 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        148 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        149 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        150 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        151 ----------------------------------------------------
+execute
+decode
 
 Cycle        152 ----------------------------------------------------
+memory
+decode
 
 Cycle        153 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        154 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        155 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        156 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        157 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        158 ----------------------------------------------------
+execute
+decode
 
 Cycle        159 ----------------------------------------------------
+memory
+decode
 
 Cycle        160 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        161 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        162 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        163 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        164 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        165 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        166 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        167 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        168 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        169 ----------------------------------------------------
+execute
+decode
 
 Cycle        170 ----------------------------------------------------
+memory
+decode
 
 Cycle        171 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        172 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        173 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        174 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        175 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        176 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        177 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        178 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        179 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        180 ----------------------------------------------------
+execute
+decode
 
 Cycle        181 ----------------------------------------------------
+memory
+decode
 
 Cycle        182 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        183 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        184 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        185 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        186 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        187 ----------------------------------------------------
+execute
+decode
 
 Cycle        188 ----------------------------------------------------
+memory
+decode
 
 Cycle        189 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        190 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        191 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        192 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        193 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        194 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        195 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        196 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        197 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        198 ----------------------------------------------------
+execute
+decode
 
 Cycle        199 ----------------------------------------------------
+memory
+decode
 
 Cycle        200 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        201 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        202 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        203 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        204 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        205 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        206 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        207 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        208 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        209 ----------------------------------------------------
+execute
+decode
 
 Cycle        210 ----------------------------------------------------
+memory
+decode
 
 Cycle        211 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        212 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        213 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        214 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        215 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        216 ----------------------------------------------------
+execute
+decode
 
 Cycle        217 ----------------------------------------------------
+memory
+decode
 
 Cycle        218 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        219 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        220 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        221 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        222 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        223 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        224 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        225 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        226 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        227 ----------------------------------------------------
+execute
+decode
 
 Cycle        228 ----------------------------------------------------
+memory
+decode
 
 Cycle        229 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        230 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        231 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        232 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        233 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        234 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        235 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        236 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        237 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        238 ----------------------------------------------------
+execute
+decode
 
 Cycle        239 ----------------------------------------------------
+memory
+decode
 
 Cycle        240 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        241 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        242 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        243 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        244 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        245 ----------------------------------------------------
+execute
+decode
 
 Cycle        246 ----------------------------------------------------
+memory
+decode
 
 Cycle        247 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        248 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        249 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        250 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        251 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        252 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        253 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        254 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        255 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        256 ----------------------------------------------------
+execute
+decode
 
 Cycle        257 ----------------------------------------------------
+memory
+decode
 
 Cycle        258 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        259 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        260 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        261 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        262 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        263 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        264 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        265 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        266 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        267 ----------------------------------------------------
+execute
+decode
 
 Cycle        268 ----------------------------------------------------
+memory
+decode
 
 Cycle        269 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        270 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        271 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        272 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        273 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        274 ----------------------------------------------------
+execute
+decode
 
 Cycle        275 ----------------------------------------------------
+memory
+decode
 
 Cycle        276 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        277 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        278 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        279 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        280 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        281 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        282 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        283 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        284 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        285 ----------------------------------------------------
+execute
+decode
 
 Cycle        286 ----------------------------------------------------
+memory
+decode
 
 Cycle        287 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        288 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        289 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        290 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        291 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        292 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        293 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        294 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        295 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        296 ----------------------------------------------------
+execute
+decode
 
 Cycle        297 ----------------------------------------------------
+memory
+decode
 
 Cycle        298 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        299 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        300 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        301 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        302 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        303 ----------------------------------------------------
+execute
+decode
 
 Cycle        304 ----------------------------------------------------
+memory
+decode
 
 Cycle        305 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        306 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        307 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        308 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        309 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        310 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        311 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        312 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        313 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        314 ----------------------------------------------------
+execute
+decode
 
 Cycle        315 ----------------------------------------------------
+memory
+decode
 
 Cycle        316 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        317 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        318 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        319 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        320 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        321 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        322 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        323 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        324 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        325 ----------------------------------------------------
+execute
+decode
 
 Cycle        326 ----------------------------------------------------
+memory
+decode
 
 Cycle        327 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        328 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        329 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        330 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        331 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        332 ----------------------------------------------------
+execute
+decode
 
 Cycle        333 ----------------------------------------------------
+memory
+decode
 
 Cycle        334 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        335 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        336 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        337 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        338 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        339 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        340 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        341 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        342 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        343 ----------------------------------------------------
+execute
+decode
 
 Cycle        344 ----------------------------------------------------
+memory
+decode
 
 Cycle        345 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        346 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        347 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        348 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        349 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        350 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        351 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        352 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        353 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        354 ----------------------------------------------------
+execute
+decode
 
 Cycle        355 ----------------------------------------------------
+memory
+decode
 
 Cycle        356 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        357 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        358 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        359 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        360 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        361 ----------------------------------------------------
+execute
+decode
 
 Cycle        362 ----------------------------------------------------
+memory
+decode
 
 Cycle        363 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        364 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        365 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        366 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        367 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        368 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        369 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        370 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        371 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        372 ----------------------------------------------------
+execute
+decode
 
 Cycle        373 ----------------------------------------------------
+memory
+decode
 
 Cycle        374 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        375 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        376 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        377 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        378 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        379 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        380 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        381 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        382 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        383 ----------------------------------------------------
+execute
+decode
 
 Cycle        384 ----------------------------------------------------
+memory
+decode
 
 Cycle        385 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        386 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        387 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        388 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        389 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        390 ----------------------------------------------------
+execute
+decode
 
 Cycle        391 ----------------------------------------------------
+memory
+decode
 
 Cycle        392 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        393 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        394 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        395 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        396 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        397 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        398 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        399 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        400 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        401 ----------------------------------------------------
+execute
+decode
 
 Cycle        402 ----------------------------------------------------
+memory
+decode
 
 Cycle        403 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        404 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        405 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        406 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        407 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        408 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        409 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        410 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        411 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        412 ----------------------------------------------------
+execute
+decode
 
 Cycle        413 ----------------------------------------------------
+memory
+decode
 
 Cycle        414 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        415 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        416 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        417 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        418 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        419 ----------------------------------------------------
+execute
+decode
 
 Cycle        420 ----------------------------------------------------
+memory
+decode
 
 Cycle        421 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        422 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        423 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        424 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        425 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        426 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        427 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        428 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        429 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        430 ----------------------------------------------------
+execute
+decode
 
 Cycle        431 ----------------------------------------------------
+memory
+decode
 
 Cycle        432 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        433 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        434 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        435 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        436 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        437 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        438 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        439 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        440 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        441 ----------------------------------------------------
+execute
+decode
 
 Cycle        442 ----------------------------------------------------
+memory
+decode
 
 Cycle        443 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        444 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        445 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        446 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        447 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        448 ----------------------------------------------------
+execute
+decode
 
 Cycle        449 ----------------------------------------------------
+memory
+decode
 
 Cycle        450 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        451 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        452 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        453 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        454 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        455 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        456 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        457 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        458 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        459 ----------------------------------------------------
+execute
+decode
 
 Cycle        460 ----------------------------------------------------
+memory
+decode
 
 Cycle        461 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        462 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        463 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        464 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        465 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        466 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        467 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        468 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        469 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        470 ----------------------------------------------------
+execute
+decode
 
 Cycle        471 ----------------------------------------------------
+memory
+decode
 
 Cycle        472 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        473 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        474 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        475 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        476 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        477 ----------------------------------------------------
+execute
+decode
 
 Cycle        478 ----------------------------------------------------
+memory
+decode
 
 Cycle        479 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        480 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        481 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        482 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        483 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        484 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        485 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        486 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        487 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        488 ----------------------------------------------------
+execute
+decode
 
 Cycle        489 ----------------------------------------------------
+memory
+decode
 
 Cycle        490 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        491 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        492 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        493 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        494 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        495 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        496 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        497 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        498 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        499 ----------------------------------------------------
+execute
+decode
 
 Cycle        500 ----------------------------------------------------
+memory
+decode
 
 Cycle        501 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        502 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        503 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        504 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        505 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        506 ----------------------------------------------------
+execute
+decode
 
 Cycle        507 ----------------------------------------------------
+memory
+decode
 
 Cycle        508 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        509 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        510 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        511 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        512 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        513 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        514 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        515 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        516 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        517 ----------------------------------------------------
+execute
+decode
 
 Cycle        518 ----------------------------------------------------
+memory
+decode
 
 Cycle        519 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        520 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        521 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        522 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        523 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        524 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        525 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        526 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        527 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        528 ----------------------------------------------------
+execute
+decode
 
 Cycle        529 ----------------------------------------------------
+memory
+decode
 
 Cycle        530 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        531 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        532 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        533 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        534 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        535 ----------------------------------------------------
+execute
+decode
 
 Cycle        536 ----------------------------------------------------
+memory
+decode
 
 Cycle        537 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        538 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        539 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        540 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        541 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        542 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        543 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        544 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        545 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        546 ----------------------------------------------------
+execute
+decode
 
 Cycle        547 ----------------------------------------------------
+memory
+decode
 
 Cycle        548 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        549 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        550 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        551 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        552 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        553 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        554 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        555 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        556 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        557 ----------------------------------------------------
+execute
+decode
 
 Cycle        558 ----------------------------------------------------
+memory
+decode
 
 Cycle        559 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        560 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        561 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        562 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        563 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        564 ----------------------------------------------------
+execute
+decode
 
 Cycle        565 ----------------------------------------------------
+memory
+decode
 
 Cycle        566 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        567 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        568 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        569 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        570 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        571 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        572 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        573 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         52
 
 Cycle        574 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r15 0x1
+pc:         56
 
 Cycle        575 ----------------------------------------------------
+execute
+decode
 
 Cycle        576 ----------------------------------------------------
+memory
+decode
 
 Cycle        577 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         60
 
 Cycle        578 ----------------------------------------------------
+execute
+decode
+fetch
+slli r15 = r15 0x2
+pc:         64
 
 Cycle        579 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        580 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        581 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r13 = r 8 0xfffffff0
+pc:         68
 
 Cycle        582 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r13 r15
+pc:         72
 
 Cycle        583 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        584 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        585 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r15 0xffffffa4] = r14
+pc:         76
 
 Cycle        586 ----------------------------------------------------
+execute
+decode
 
 Cycle        587 ----------------------------------------------------
+memory
+decode
 
 Cycle        588 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffec]
+pc:         80
 
 Cycle        589 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:         84
 
 Cycle        590 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        591 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        592 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffec] = r15
+pc:         88
 
 Cycle        593 ----------------------------------------------------
+execute
+decode
 
 Cycle        594 ----------------------------------------------------
+memory
+decode
 
 Cycle        595 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffec]
+pc:         92
 
 Cycle        596 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:         96
 
 Cycle        597 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffd0
+pc:        100
 
 Cycle        598 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        599 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        600 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r 0
+pc:        104
 
 Cycle        601 ----------------------------------------------------
+execute
+decode
+fetch
+sw [r 8 0xffffffe4] = r 0
+pc:        108
 
 Cycle        602 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+jal r 0 0x30
+pc:        112
 
 Cycle        603 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        604 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
 
 Cycle        605 ----------------------------------------------------
+writeback
+memory
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        606 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        607 ----------------------------------------------------
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        608 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        609 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        610 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        611 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        612 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        613 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        614 ----------------------------------------------------
+execute
+decode
 
 Cycle        615 ----------------------------------------------------
+memory
+decode
 
 Cycle        616 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        617 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        618 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        619 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        620 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        621 ----------------------------------------------------
+execute
+decode
 
 Cycle        622 ----------------------------------------------------
+memory
+decode
 
 Cycle        623 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        624 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        625 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        626 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        627 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        628 ----------------------------------------------------
+execute
+decode
 
 Cycle        629 ----------------------------------------------------
+memory
+decode
 
 Cycle        630 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        631 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        632 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        633 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        634 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        635 ----------------------------------------------------
+execute
+decode
 
 Cycle        636 ----------------------------------------------------
+memory
+decode
 
 Cycle        637 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        638 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        639 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        640 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        641 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        642 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        643 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        644 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        645 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        646 ----------------------------------------------------
+execute
+decode
 
 Cycle        647 ----------------------------------------------------
+memory
+decode
 
 Cycle        648 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        649 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        650 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        651 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        652 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        653 ----------------------------------------------------
+execute
+decode
 
 Cycle        654 ----------------------------------------------------
+memory
+decode
 
 Cycle        655 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        656 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        657 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        658 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        659 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        660 ----------------------------------------------------
+execute
+decode
 
 Cycle        661 ----------------------------------------------------
+memory
+decode
 
 Cycle        662 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        663 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        664 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        665 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        666 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        667 ----------------------------------------------------
+execute
+decode
 
 Cycle        668 ----------------------------------------------------
+memory
+decode
 
 Cycle        669 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        670 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        671 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        672 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        673 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        674 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        675 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        676 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        677 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        678 ----------------------------------------------------
+execute
+decode
 
 Cycle        679 ----------------------------------------------------
+memory
+decode
 
 Cycle        680 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        681 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        682 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        683 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        684 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        685 ----------------------------------------------------
+execute
+decode
 
 Cycle        686 ----------------------------------------------------
+memory
+decode
 
 Cycle        687 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        688 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        689 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        690 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        691 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        692 ----------------------------------------------------
+execute
+decode
 
 Cycle        693 ----------------------------------------------------
+memory
+decode
 
 Cycle        694 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        695 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        696 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        697 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        698 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        699 ----------------------------------------------------
+execute
+decode
 
 Cycle        700 ----------------------------------------------------
+memory
+decode
 
 Cycle        701 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        702 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        703 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        704 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        705 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        706 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        707 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        708 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        709 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        710 ----------------------------------------------------
+execute
+decode
 
 Cycle        711 ----------------------------------------------------
+memory
+decode
 
 Cycle        712 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        713 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        714 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        715 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        716 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        717 ----------------------------------------------------
+execute
+decode
 
 Cycle        718 ----------------------------------------------------
+memory
+decode
 
 Cycle        719 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        720 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        721 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        722 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        723 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        724 ----------------------------------------------------
+execute
+decode
 
 Cycle        725 ----------------------------------------------------
+memory
+decode
 
 Cycle        726 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        727 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        728 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        729 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        730 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        731 ----------------------------------------------------
+execute
+decode
 
 Cycle        732 ----------------------------------------------------
+memory
+decode
 
 Cycle        733 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        734 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        735 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        736 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        737 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        738 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        739 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        740 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        741 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        742 ----------------------------------------------------
+execute
+decode
 
 Cycle        743 ----------------------------------------------------
+memory
+decode
 
 Cycle        744 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        745 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        746 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        747 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        748 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        749 ----------------------------------------------------
+execute
+decode
 
 Cycle        750 ----------------------------------------------------
+memory
+decode
 
 Cycle        751 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        752 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        753 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        754 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        755 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        756 ----------------------------------------------------
+execute
+decode
 
 Cycle        757 ----------------------------------------------------
+memory
+decode
 
 Cycle        758 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        759 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        760 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        761 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        762 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        763 ----------------------------------------------------
+execute
+decode
 
 Cycle        764 ----------------------------------------------------
+memory
+decode
 
 Cycle        765 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        766 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        767 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        768 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        769 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        770 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        771 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        772 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        773 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        774 ----------------------------------------------------
+execute
+decode
 
 Cycle        775 ----------------------------------------------------
+memory
+decode
 
 Cycle        776 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        777 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        778 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        779 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        780 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        781 ----------------------------------------------------
+execute
+decode
 
 Cycle        782 ----------------------------------------------------
+memory
+decode
 
 Cycle        783 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        784 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        785 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        786 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        787 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        788 ----------------------------------------------------
+execute
+decode
 
 Cycle        789 ----------------------------------------------------
+memory
+decode
 
 Cycle        790 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        791 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        792 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        793 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        794 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        795 ----------------------------------------------------
+execute
+decode
 
 Cycle        796 ----------------------------------------------------
+memory
+decode
 
 Cycle        797 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        798 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        799 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        800 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        801 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        802 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        803 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        804 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        805 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        806 ----------------------------------------------------
+execute
+decode
 
 Cycle        807 ----------------------------------------------------
+memory
+decode
 
 Cycle        808 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        809 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        810 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        811 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        812 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        813 ----------------------------------------------------
+execute
+decode
 
 Cycle        814 ----------------------------------------------------
+memory
+decode
 
 Cycle        815 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        816 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        817 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        818 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        819 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        820 ----------------------------------------------------
+execute
+decode
 
 Cycle        821 ----------------------------------------------------
+memory
+decode
 
 Cycle        822 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        823 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        824 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        825 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        826 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        827 ----------------------------------------------------
+execute
+decode
 
 Cycle        828 ----------------------------------------------------
+memory
+decode
 
 Cycle        829 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        830 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        831 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        832 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        833 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        834 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        835 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        836 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        837 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        838 ----------------------------------------------------
+execute
+decode
 
 Cycle        839 ----------------------------------------------------
+memory
+decode
 
 Cycle        840 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        841 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        842 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        843 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        844 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        845 ----------------------------------------------------
+execute
+decode
 
 Cycle        846 ----------------------------------------------------
+memory
+decode
 
 Cycle        847 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        848 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        849 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        850 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        851 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        852 ----------------------------------------------------
+execute
+decode
 
 Cycle        853 ----------------------------------------------------
+memory
+decode
 
 Cycle        854 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        855 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        856 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        857 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        858 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        859 ----------------------------------------------------
+execute
+decode
 
 Cycle        860 ----------------------------------------------------
+memory
+decode
 
 Cycle        861 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        862 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        863 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        864 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        865 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        866 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        867 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        868 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        869 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        870 ----------------------------------------------------
+execute
+decode
 
 Cycle        871 ----------------------------------------------------
+memory
+decode
 
 Cycle        872 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        873 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        874 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        875 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        876 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        877 ----------------------------------------------------
+execute
+decode
 
 Cycle        878 ----------------------------------------------------
+memory
+decode
 
 Cycle        879 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        880 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        881 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        882 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        883 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        884 ----------------------------------------------------
+execute
+decode
 
 Cycle        885 ----------------------------------------------------
+memory
+decode
 
 Cycle        886 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        887 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        888 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        889 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        890 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        891 ----------------------------------------------------
+execute
+decode
 
 Cycle        892 ----------------------------------------------------
+memory
+decode
 
 Cycle        893 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        894 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        895 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        896 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        897 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        898 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        899 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        900 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        901 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        902 ----------------------------------------------------
+execute
+decode
 
 Cycle        903 ----------------------------------------------------
+memory
+decode
 
 Cycle        904 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        905 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        906 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        907 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        908 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        909 ----------------------------------------------------
+execute
+decode
 
 Cycle        910 ----------------------------------------------------
+memory
+decode
 
 Cycle        911 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        912 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        913 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        914 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        915 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        916 ----------------------------------------------------
+execute
+decode
 
 Cycle        917 ----------------------------------------------------
+memory
+decode
 
 Cycle        918 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        919 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        920 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        921 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        922 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        923 ----------------------------------------------------
+execute
+decode
 
 Cycle        924 ----------------------------------------------------
+memory
+decode
 
 Cycle        925 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        926 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        927 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        928 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        929 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        930 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        931 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        932 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        933 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        934 ----------------------------------------------------
+execute
+decode
 
 Cycle        935 ----------------------------------------------------
+memory
+decode
 
 Cycle        936 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        937 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        938 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        939 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        940 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        941 ----------------------------------------------------
+execute
+decode
 
 Cycle        942 ----------------------------------------------------
+memory
+decode
 
 Cycle        943 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        944 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        945 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        946 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        947 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        948 ----------------------------------------------------
+execute
+decode
 
 Cycle        949 ----------------------------------------------------
+memory
+decode
 
 Cycle        950 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        951 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        952 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        953 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        954 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        955 ----------------------------------------------------
+execute
+decode
 
 Cycle        956 ----------------------------------------------------
+memory
+decode
 
 Cycle        957 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        958 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        959 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        960 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        961 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        962 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        963 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        964 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        965 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        966 ----------------------------------------------------
+execute
+decode
 
 Cycle        967 ----------------------------------------------------
+memory
+decode
 
 Cycle        968 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle        969 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle        970 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        971 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        972 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle        973 ----------------------------------------------------
+execute
+decode
 
 Cycle        974 ----------------------------------------------------
+memory
+decode
 
 Cycle        975 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle        976 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle        977 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        978 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        979 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle        980 ----------------------------------------------------
+execute
+decode
 
 Cycle        981 ----------------------------------------------------
+memory
+decode
 
 Cycle        982 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle        983 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle        984 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle        985 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        986 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle        987 ----------------------------------------------------
+execute
+decode
 
 Cycle        988 ----------------------------------------------------
+memory
+decode
 
 Cycle        989 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle        990 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle        991 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle        992 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle        993 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle        994 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle        995 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle        996 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle        997 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle        998 ----------------------------------------------------
+execute
+decode
 
 Cycle        999 ----------------------------------------------------
+memory
+decode
 
 Cycle       1000 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle       1001 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle       1002 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1003 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1004 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle       1005 ----------------------------------------------------
+execute
+decode
 
 Cycle       1006 ----------------------------------------------------
+memory
+decode
 
 Cycle       1007 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle       1008 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle       1009 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1010 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1011 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle       1012 ----------------------------------------------------
+execute
+decode
 
 Cycle       1013 ----------------------------------------------------
+memory
+decode
 
 Cycle       1014 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle       1015 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle       1016 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1017 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1018 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle       1019 ----------------------------------------------------
+execute
+decode
 
 Cycle       1020 ----------------------------------------------------
+memory
+decode
 
 Cycle       1021 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle       1022 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle       1023 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle       1024 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle       1025 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1026 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle       1027 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle       1028 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle       1029 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle       1030 ----------------------------------------------------
+execute
+decode
 
 Cycle       1031 ----------------------------------------------------
+memory
+decode
 
 Cycle       1032 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle       1033 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle       1034 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1035 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1036 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle       1037 ----------------------------------------------------
+execute
+decode
 
 Cycle       1038 ----------------------------------------------------
+memory
+decode
 
 Cycle       1039 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle       1040 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle       1041 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1042 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1043 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle       1044 ----------------------------------------------------
+execute
+decode
 
 Cycle       1045 ----------------------------------------------------
+memory
+decode
 
 Cycle       1046 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle       1047 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle       1048 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1049 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1050 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle       1051 ----------------------------------------------------
+execute
+decode
 
 Cycle       1052 ----------------------------------------------------
+memory
+decode
 
 Cycle       1053 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle       1054 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle       1055 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle       1056 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle       1057 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1058 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle       1059 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle       1060 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle       1061 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle       1062 ----------------------------------------------------
+execute
+decode
 
 Cycle       1063 ----------------------------------------------------
+memory
+decode
 
 Cycle       1064 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle       1065 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle       1066 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1067 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1068 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle       1069 ----------------------------------------------------
+execute
+decode
 
 Cycle       1070 ----------------------------------------------------
+memory
+decode
 
 Cycle       1071 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle       1072 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle       1073 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1074 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1075 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle       1076 ----------------------------------------------------
+execute
+decode
 
 Cycle       1077 ----------------------------------------------------
+memory
+decode
 
 Cycle       1078 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle       1079 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle       1080 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1081 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1082 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle       1083 ----------------------------------------------------
+execute
+decode
 
 Cycle       1084 ----------------------------------------------------
+memory
+decode
 
 Cycle       1085 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle       1086 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle       1087 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle       1088 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle       1089 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1090 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle       1091 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle       1092 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle       1093 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle       1094 ----------------------------------------------------
+execute
+decode
 
 Cycle       1095 ----------------------------------------------------
+memory
+decode
 
 Cycle       1096 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle       1097 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle       1098 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1099 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1100 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle       1101 ----------------------------------------------------
+execute
+decode
 
 Cycle       1102 ----------------------------------------------------
+memory
+decode
 
 Cycle       1103 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle       1104 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle       1105 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1106 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1107 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle       1108 ----------------------------------------------------
+execute
+decode
 
 Cycle       1109 ----------------------------------------------------
+memory
+decode
 
 Cycle       1110 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle       1111 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle       1112 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1113 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1114 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle       1115 ----------------------------------------------------
+execute
+decode
 
 Cycle       1116 ----------------------------------------------------
+memory
+decode
 
 Cycle       1117 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle       1118 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle       1119 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle       1120 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle       1121 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1122 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle       1123 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle       1124 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle       1125 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle       1126 ----------------------------------------------------
+execute
+decode
 
 Cycle       1127 ----------------------------------------------------
+memory
+decode
 
 Cycle       1128 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle       1129 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle       1130 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1131 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1132 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle       1133 ----------------------------------------------------
+execute
+decode
 
 Cycle       1134 ----------------------------------------------------
+memory
+decode
 
 Cycle       1135 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle       1136 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle       1137 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1138 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1139 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle       1140 ----------------------------------------------------
+execute
+decode
 
 Cycle       1141 ----------------------------------------------------
+memory
+decode
 
 Cycle       1142 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle       1143 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle       1144 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1145 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1146 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle       1147 ----------------------------------------------------
+execute
+decode
 
 Cycle       1148 ----------------------------------------------------
+memory
+decode
 
 Cycle       1149 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle       1150 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle       1151 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle       1152 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle       1153 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1154 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle       1155 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle       1156 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle       1157 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle       1158 ----------------------------------------------------
+execute
+decode
 
 Cycle       1159 ----------------------------------------------------
+memory
+decode
 
 Cycle       1160 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle       1161 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle       1162 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1163 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1164 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle       1165 ----------------------------------------------------
+execute
+decode
 
 Cycle       1166 ----------------------------------------------------
+memory
+decode
 
 Cycle       1167 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle       1168 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle       1169 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1170 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1171 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle       1172 ----------------------------------------------------
+execute
+decode
 
 Cycle       1173 ----------------------------------------------------
+memory
+decode
 
 Cycle       1174 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle       1175 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle       1176 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1177 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1178 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle       1179 ----------------------------------------------------
+execute
+decode
 
 Cycle       1180 ----------------------------------------------------
+memory
+decode
 
 Cycle       1181 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle       1182 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle       1183 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle       1184 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle       1185 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1186 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle       1187 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle       1188 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle       1189 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle       1190 ----------------------------------------------------
+execute
+decode
 
 Cycle       1191 ----------------------------------------------------
+memory
+decode
 
 Cycle       1192 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle       1193 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle       1194 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1195 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1196 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle       1197 ----------------------------------------------------
+execute
+decode
 
 Cycle       1198 ----------------------------------------------------
+memory
+decode
 
 Cycle       1199 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle       1200 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle       1201 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1202 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1203 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle       1204 ----------------------------------------------------
+execute
+decode
 
 Cycle       1205 ----------------------------------------------------
+memory
+decode
 
 Cycle       1206 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle       1207 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle       1208 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1209 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1210 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle       1211 ----------------------------------------------------
+execute
+decode
 
 Cycle       1212 ----------------------------------------------------
+memory
+decode
 
 Cycle       1213 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle       1214 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle       1215 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle       1216 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle       1217 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1218 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle       1219 ----------------------------------------------------
+execute
+decode
+fetch
 
 Cycle       1220 ----------------------------------------------------
+memory
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        116
 
 Cycle       1221 ----------------------------------------------------
+writeback
+decode
+fetch
+slli r15 = r15 0x2
+pc:        120
 
 Cycle       1222 ----------------------------------------------------
+execute
+decode
 
 Cycle       1223 ----------------------------------------------------
+memory
+decode
 
 Cycle       1224 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r14 = r 8 0xfffffff0
+pc:        124
 
 Cycle       1225 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        128
 
 Cycle       1226 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1227 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1228 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r15 0xffffffa4]
+pc:        132
 
 Cycle       1229 ----------------------------------------------------
+execute
+decode
 
 Cycle       1230 ----------------------------------------------------
+memory
+decode
 
 Cycle       1231 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe8]
+pc:        136
 
 Cycle       1232 ----------------------------------------------------
+execute
+decode
+fetch
+add r15 = r14 r15
+pc:        140
 
 Cycle       1233 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1234 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1235 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe8] = r15
+pc:        144
 
 Cycle       1236 ----------------------------------------------------
+execute
+decode
 
 Cycle       1237 ----------------------------------------------------
+memory
+decode
 
 Cycle       1238 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe4]
+pc:        148
 
 Cycle       1239 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0x1
+pc:        152
 
 Cycle       1240 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1241 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1242 ----------------------------------------------------
+writeback
+decode
+fetch
+sw [r 8 0xffffffe4] = r15
+pc:        156
 
 Cycle       1243 ----------------------------------------------------
+execute
+decode
 
 Cycle       1244 ----------------------------------------------------
+memory
+decode
 
 Cycle       1245 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r14 = [r 8 0xffffffe4]
+pc:        160
 
 Cycle       1246 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r 0 0x13
+pc:        164
 
 Cycle       1247 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+bge r15 r14 0xffffffcc
+pc:        168
 
 Cycle       1248 ----------------------------------------------------
+writeback
+memory
+execute
+decode
 
 Cycle       1249 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1250 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r15 = [r 8 0xffffffe8]
+pc:        172
 
 Cycle       1251 ----------------------------------------------------
+execute
+decode
+fetch
+addi r15 = r15 0xffffff2e
+pc:        176
 
 Cycle       1252 ----------------------------------------------------
+memory
+execute
+decode
 
 Cycle       1253 ----------------------------------------------------
+writeback
+memory
+decode
 
 Cycle       1254 ----------------------------------------------------
+writeback
+decode
+fetch
+addi r10 = r15 0x0
+pc:        180
 
 Cycle       1255 ----------------------------------------------------
+execute
+decode
 
 Cycle       1256 ----------------------------------------------------
+memory
+decode
 
 Cycle       1257 ----------------------------------------------------
+writeback
+decode
+fetch
+lw r 8 = [r 2 0x6c]
+pc:        184
 
 Cycle       1258 ----------------------------------------------------
+execute
+decode
+fetch
+addi r 2 = r 2 0x70
+pc:        188
 
 Cycle       1259 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+jalr r 0 [r 1 0x0]
+pc:        192
 
 Cycle       1260 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:        196
 
 Cycle       1261 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
 
 Cycle       1262 ----------------------------------------------------
+writeback
+memory
+decode
+fetch
+addi r 6 = r 0 0x0
+pc:         12
 
 Cycle       1263 ----------------------------------------------------
+writeback
+decode
+fetch
+csrrw r 0 csr0x780 r10
+pc:         16
 
 Cycle       1264 ----------------------------------------------------
+execute
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         20
 
 Cycle       1265 ----------------------------------------------------
+memory
+execute
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         24
 
 Cycle       1266 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
+addi r 0 = r 0 0x0
+pc:         28
 
 Cycle       1267 ----------------------------------------------------
+writeback
+memory
+execute
+decode
+fetch
+addi r 2 = r 2 0xffffff90
+pc:         32
 
 Cycle       1268 ----------------------------------------------------
