@@ -11,7 +11,6 @@ import CsrFile::*;
 import Fifo::*;
 import Scoreboard::*;
 import GetPut::*;
-//import Ehr::*;
 
 typedef struct {
   Instruction inst;
@@ -42,9 +41,7 @@ typedef struct {
 (*synthesize*)
 module mkProc(Proc);
   Reg#(Addr)    pc  <- mkRegU;
-//	Ehr#(2, Addr) pc <- mkEhr(0);
   RFile         rf  <- mkBypassRFile; 
-  //RFile         rf  <- mkRFile;
   IMemory     iMem  <- mkIMemory;
   DMemory     dMem  <- mkDMemory;
   CsrFile     csrf <- mkCsrFile;
@@ -67,7 +64,6 @@ module mkProc(Proc);
 
 /* TODO: Lab 6-1: Implement 5-stage pipelined processor with scoreboard. */
   rule doFetch(csrf.started);
-	  $display("fetch");
 	  if(execRedirect.notEmpty) begin
       	    	  execRedirect.deq;
       	    	  pc <= execRedirect.first;
@@ -115,7 +111,6 @@ module mkProc(Proc);
   endrule
 
   rule doExecute(csrf.started);
-	  $display("execute");
 	  let x = d2e.first;
 	  let iEpoch = x.epoch;
 
@@ -131,7 +126,6 @@ module mkProc(Proc);
 			  eEpoch <= !eEpoch;
 			  execRedirect.enq(eInst.addr);
 			  execRedirectToDecode.enq(eInst.addr);
-			  //pc[0] <= eInst.addr;
 		  end
 	  end
 
@@ -139,7 +133,6 @@ module mkProc(Proc);
   endrule
 
   rule doMemory(csrf.started);
-	  $display("memory");
 	  let eInst = e2m.first.eInst;
   	  let iType = eInst.iType;
 	  
@@ -148,11 +141,9 @@ module mkProc(Proc);
 			  let d <- dMem.req(MemReq{op: Ld, addr: eInst.addr, data: ?});
 			  eInst.data = d;
 		  end
-		  St :begin
-			  let d <- dMem.req(MemReq{op: St, addr: eInst.addr, data: eInst.data});
-		  end
+		  St :let d <- dMem.req(MemReq{op: St, addr: eInst.addr, data: eInst.data});
 		  Unsupported :begin
-	  $fwrite(stderr, "ERROR: Executing unsupported instruction\n");
+	  		  $fwrite(stderr, "ERROR: Executing unsupported instruction\n");
 			  $finish;
 		  end
 	  endcase
@@ -162,7 +153,6 @@ module mkProc(Proc);
   endrule
 
   rule doWriteBack(csrf.started);
-	  $display("writeback");
 	  let eInst = m2w.first.eInst;
 	  
 	  if (isValid(eInst.dst)) rf.wr(fromMaybe(?, eInst.dst), eInst.data);

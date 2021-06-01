@@ -40,8 +40,7 @@ typedef struct {
 (*synthesize*)
 module mkProc(Proc);
   Reg#(Addr)    pc  <- mkRegU;
-  RFile         rf  <- mkBypassRFile; // wr < rd :  Refer to p.20, M10
-//  RFile         rf  <- mkRFile; 
+  RFile         rf  <- mkBypassRFile; 
   IMemory     iMem  <- mkIMemory;
   DMemory     dMem  <- mkDMemory;
   CsrFile     csrf <- mkCsrFile;
@@ -68,9 +67,6 @@ module mkProc(Proc);
  /* TODO:  Lab 6-2: Implement 5-stage pipelined processor with forwarding method. 
            You should first define proper forwarding units using BypassFiFo*/
   rule doFetch(csrf.started);
-    $display("\n");
-    $display("Fetch : Starting point");
-
     if(execRedirect.notEmpty) begin
       execRedirect.deq;
       pc <= execRedirect.first;
@@ -78,74 +74,55 @@ module mkProc(Proc);
     end
     else begin
             let inst = iMem.req(pc);
-            $display("Fetch : ", showInst(inst));
-            $display("pc: ", pc);
             let ppc = pc + 4; pc <= ppc;
             f2d.enq(Fetch2Decode{inst:inst, pc:pc, ppc:ppc, epoch:fEpoch});
     end
   endrule
 
   rule doDecode(csrf.started);
-	            $display("\n");
-          $display("Decode : Starting point");
-
 	if (execRedirectToDecode.notEmpty) begin
           	execRedirectToDecode.deq;
             	dEpoch <= !dEpoch;
-                $display("Decode : ExecRedirectDecode !! Do not decode this cycle.");
         end
 	else begin
 		Fetch2Decode x = f2d.first;
 
-		if(x.epoch != dEpoch) begin
-			$display("Decode : just deq bcs of mispredict");
-			f2d.deq;
-		end
+		if(x.epoch != dEpoch) f2d.deq;
 		else begin
 			DecodedInst dInst = decode(x.inst);
-			$display("Decode : ", showInst(x.inst));
 
-			// Check stall condtion
+			// Checking for Stall
         		Bool stall = False; 
 			if (execFwd.notEmpty) begin
 				Bool prevInstLd = execFwd.first.dInst.iType == Ld;
-				Bool use1 = validValue(execFwd.first.dInst.dst) == validValue(dInst.src1);				    Bool use2 = validValue(execFwd.first.dInst.dst) == validValue(dInst.src2);
+				Bool use1 = validValue(execFwd.first.dInst.dst) == validValue(dInst.src1);				   
+ 			       	Bool use2 = validValue(execFwd.first.dInst.dst) == validValue(dInst.src2);
 
 				stall = prevInstLd && (use1 || use2);
 				execFwd.deq;
 			end
         	
-			if(stall) begin // stall condition
+			if(stall) begin 
 				Instruction nop = 32'b00000000000000000000000000010011;
-				dInst = decode(nop);
-				$display("Decode : Stall Detected ***");
+				dInst = decode(nop); // When stall, 1) Insert nop 2) Prevent update of pc & f2d by not dequeing from f2d
                 	end
-                	else begin
-				f2d.deq;
-                	end
+                	else f2d.deq;
 			
-			// No matter stall or not stall, still enq inst into d2e
+			// Regardless of stall or not stall, still enq inst into d2e
                         let rVal1 = isValid(dInst.src1) ? rf.rd1(validValue(dInst.src1)) : ?;
                         let rVal2 = isValid(dInst.src2) ? rf.rd2(validValue(dInst.src2)) : ?;
                         let csrVal = isValid(dInst.csr) ? csrf.rd(validValue(dInst.csr)) : ?;
 
 			d2e.enq(Decode2Execute{dInst:dInst,pc:x.pc,ppc:x.ppc,epoch:x.epoch,rVal1:rVal1, rVal2:rVal2,csrVal:csrVal});
 		end
-
 	end
-
   endrule
 
   rule doExecute(csrf.started);
 	  Decode2Execute x = d2e.first; d2e.deq;
 
-	   $display("\n");
-          $display("Execute : doExecute is fired");
-          $display("Execute : r", fromMaybe(?,x.dInst.dst), ": r", fromMaybe(?, x.dInst.src1), " r", fromMaybe(?, x.dInst.src2));
-
-
 	  if (x.epoch == eEpoch) begin
-		  execFwd.enq(x); // enq execFwd for stall checking
+		  execFwd.enq(x); // BypassFifo execFwd is used for stall checking
 
 		  Bool execHazardA = False; Bool execHazardB = False;
                   Bool memHazardA = False; Bool memHazardB = False;
@@ -178,11 +155,7 @@ module mkProc(Proc);
                          writeFwd.deq;
                   end
 
-
-                  $display("ExecHazard: A:", execHazardA," B:", execHazardB);
-                  $display("MemHazard: A:", memHazardA," B: ", memHazardB);
-
-		  // rVal temp
+		  // Result of Forwarding
 		  let rVal1 = execHazardA ? memFwd.first.eInst.data : memHazardA ? writeFwd.first.eInst.data : x.rVal1;
 		  let rVal2 = execHazardB ? memFwd.first.eInst.data : memHazardB ? writeFwd.first.eInst.data : x.rVal2;
 
@@ -190,13 +163,10 @@ module mkProc(Proc);
 		  e2m.enq(Execute2Memory{eInst:eInst});
 
 		  if(eInst.mispredict) begin
-                          $display("Execute : Mispredict. doFetch and doDecode should change epoch");
-			  $display("x.ppc: ", x.ppc, " Correct pc: ", eInst.addr);
                           eEpoch <= !eEpoch;
                           execRedirect.enq(eInst.addr);
                           execRedirectToDecode.enq(eInst.addr);
                   end
-
 	  end
   endrule
 
@@ -204,19 +174,12 @@ module mkProc(Proc);
 	  Execute2Memory x = e2m.first; e2m.deq;
 	  memFwd.enq(x);
 
-	                      $display("\n");
-          $display("Memory : doMemory is fired");
-  	  $display("Memory : dst = ", validValue(x.eInst.dst));
-
-
 	  case(x.eInst.iType)
                   Ld :begin
                           let d <- dMem.req(MemReq{op: Ld, addr: x.eInst.addr, data: ?});
                           x.eInst.data = d;
                   end
-                  St :begin
-                          let d <- dMem.req(MemReq{op: St, addr: x.eInst.addr, data: x.eInst.data});
-                  end
+                  St : let d <- dMem.req(MemReq{op: St, addr: x.eInst.addr, data: x.eInst.data});
                   Unsupported :begin
                           $fwrite(stderr, "ERROR: Executing unsupported instruction\n");
                           $finish;
@@ -224,20 +187,14 @@ module mkProc(Proc);
           endcase
 
 	  m2w.enq(Memory2WriteBack{eInst:x.eInst});
-
   endrule
 
   rule doWriteBack(csrf.started);
 	  Memory2WriteBack x = m2w.first; m2w.deq;
 	  writeFwd.enq(x);
 
-	            $display("\n");
-          $display("WriteBack : doWriteBack is fired");
-  	  $display("Writeback : dst = ", validValue(x.eInst.dst));
-
-	  if (isValid(x.eInst.dst)) rf.wr(fromMaybe(?, x.eInst.dst), x.eInst.data);
+	  if (isValid(x.eInst.dst)) rf.wr(validValue(x.eInst.dst), x.eInst.data);
           csrf.wr(x.eInst.iType == Csrw ? x.eInst.csr : Invalid, x.eInst.data);
-
   endrule
 
   method ActionValue#(CpuToHostData) cpuToHost;
