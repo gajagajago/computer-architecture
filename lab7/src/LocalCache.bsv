@@ -157,7 +157,7 @@ module mkCacheSetAssociative (Cache);
         	if (isValid(tag) && dirty) begin
                         let addr = { validValue(tag), idx, 2'b00 };
                         let data = dataArray[0].sub(idx);
-                        memReqQ.enq(CacheMemReq{op:St, addr:addr, data:data, burstLength:?});
+                        memReqQ.enq(CacheMemReq{op:St, addr:addr, data:data, burstLength:1});
                 end
 
                 status <= SendFillReq;
