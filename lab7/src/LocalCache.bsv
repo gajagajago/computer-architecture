@@ -155,9 +155,9 @@ module mkCacheSetAssociative (Cache);
                 let dirty = dirtyArray[0].sub(idx);
 
         	if (isValid(tag) && dirty) begin
-                        let addr = { validValue(tag), idx, 2'b00 };
+                        Addr addr = { validValue(tag), idx, 0 };
                         let data = dataArray[0].sub(idx);
-                        memReqQ.enq(CacheMemReq{op:St, addr:addr, data:data, burstLength:1});
+                        memReqQ.enq(CacheMemReq{op:St, addr:addr, data:data, burstLength:fromInteger(valueOf(WordsPerBlock))});
                 end
 
                 status <= SendFillReq;
@@ -247,7 +247,7 @@ module mkCacheSetAssociative (Cache);
 				lineVector2[0] = r.data;
 
 				$display("DATA = ", r.data, " made to line data = ", lineVector2[0]);
-                                memReqQ.enq(CacheMemReq{op:r.op, addr:r.addr, data:lineVector2, burstLength:1});
+                                memReqQ.enq(CacheMemReq{op:r.op, addr:r.addr, data:lineVector2, burstLength:fromInteger(valueOf(WordsPerBlock))});
                         end
                 end
 
