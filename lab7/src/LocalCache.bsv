@@ -22,15 +22,16 @@ typedef enum {Ready, StartMiss, SendFillReq, WaitFillResp} CacheStatus deriving 
 
 (*synthesize*)
 module mkCacheSetAssociative (Cache);
-	Vector#(LinesPerSet, RegFile#(CacheIndex, Line))				  dataArray <- replicateM(mkRegFileFull);
-	Vector#(LinesPerSet, RegFile#(CacheIndex, Maybe#(CacheTag)))       tagArray <- replicateM(mkRegFileFull);
-	Vector#(LinesPerSet, RegFile#(CacheIndex, Bool))				 dirtyArray <- replicateM(mkRegFileFull);
+	// Data Array that corresponds to one set.
+	Vector#(LinesPerSet, RegFile#(CacheIndex, Line)) dataArray <- replicateM(mkRegFileFull);
+	Vector#(LinesPerSet, RegFile#(CacheIndex, Maybe#(CacheTag))) tagArray <- replicateM(mkRegFileFull);
+	Vector#(LinesPerSet, RegFile#(CacheIndex, Bool))  dirtyArray <- replicateM(mkRegFileFull);
 	Vector#(LinesPerSet, RegFile#(CacheIndex, SetOffset)) lruArray <- replicateM(mkRegFileFull);
 
 	Reg#(Bit#(TAdd#(SizeOf#(CacheIndex), 1))) init <- mkReg(0);
-	Reg#(CacheStatus)					    status <- mkReg(Ready);
-	Reg#(CacheStatus)					    testflag <- mkReg(Ready);
-	Reg#(Maybe#(SetOffset)) 		targetLine <- mkReg(Invalid);
+	Reg#(CacheStatus) status <- mkReg(Ready);
+	Reg#(CacheStatus) testflag <- mkReg(Ready);
+	Reg#(Maybe#(SetOffset)) targetLine <- mkReg(Invalid);
 
 	Fifo#(1, Data)  hitQ <- mkBypassFifo;
 	Reg#(MemReq) missReq <- mkRegU;
@@ -142,15 +143,51 @@ module mkCacheSetAssociative (Cache);
 	endrule
 
 	rule startMiss(status == StartMiss);
+		$display("\n");
+		$display("Entered start miss stage");
+
 		/* TODO: Implement here */
+		// Load + Miss : Request memory. If dirty, request memory to update dirty address.
+		let idx = getIdx(missReq.addr);
+		let tag = tagArray[0].sub(idx);
+		//let setOffset = validValue(checkHit(tag, addr));
+		let dirty = dirtyArray[0].sub(idx);
+
+		if (dirty) begin
+			let addr = { validValue(tag), idx, 2'b00 };
+			let data = dataArray[0].sub(idx);
+			memReqQ.enq(CacheMemReq{op:St, addr:addr, data:data, burstLength:?});
+		end
+
+		status <= SendFillReq;
+
 	endrule
 
 	rule sendFillReq(status == SendFillReq);
+		$display("\n");
+		$display("Entered send fill req");
+
 		/* TODO: Implement here */
+		memReqQ.enq(CacheMemReq{op:missReq.op, addr:missReq.addr, data:?, burstLength:fromInteger(valueOf(WordsPerBlock))});
+		status <= WaitFillResp;
 	endrule
 
 	rule waitFillResp(status == WaitFillResp);
+		$display("\n");
+                $display("Entered wait fill req");
+
 		/* TODO: Implement here */
+		let resp = memRespQ.first;
+		let idx = getIdx(missReq.addr);
+		let tag = getTag(missReq.addr);
+
+		dataArray[0].upd(idx, resp); // temp 0 actually need to find right set
+		tagArray[0].upd(idx, Valid(tag));
+		dirtyArray[0].upd(idx, False);
+		hitQ.enq(resp[0]);
+		memRespQ.deq;
+		status <= Ready;
+
 	endrule
 
 	method Action req(MemReq r) if (status == Ready && inited);
@@ -162,8 +199,36 @@ module mkCacheSetAssociative (Cache);
 		//     - If r.op == St, send store request.
 
 		/* TODO: Implement here */
-		let hit = ?;
+		let tag = getTag(r.addr); 
+		let idx = getIdx(r.addr);
+		let hit = checkHit(tag, idx);
 
+		$display("=============== Cache Requested ====================");
+		$display("Op:", r.op, "Hit: ", hit);
+
+		if (r.op == Ld) begin
+			$display("Load !!");
+			if (isValid(hit)) begin
+				Line data = dataArray[validValue(hit)].sub(idx);
+				hitQ.enq(data[0]);
+			end
+			else begin
+				missReq <= r;
+				status <= StartMiss;
+			end
+		end
+		else if (r.op == St) begin // No Status change when St
+			$display("Store!!", r.addr);
+			if (isValid(hit)) begin
+				Line data = replicate(r.data);
+				dataArray[validValue(hit)].upd(idx, data);
+				dirtyArray[validValue(hit)].upd(idx, True);
+			end
+			else begin
+				Line data = replicate(r.data);
+				memReqQ.enq(CacheMemReq{op:r.op, addr:r.addr, data:data, burstLength:?});
+			end
+		end
 
 		/* DO NOT MODIFY BELOW HERE! */
 		if(!isValid(hit))

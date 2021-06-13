@@ -16,7 +16,6 @@ import Memory::*;
 import Connectable::*; 
 
 
-
 typedef struct {
   Instruction inst;
   Addr pc;
@@ -65,8 +64,6 @@ module mkProc(Proc);
 
 
   rule doFetch(csrf.started && stat == AOK);
-
-
     let updatedPC = pc;
     let updatedfEpoch = fEpoch;
 
@@ -76,8 +73,8 @@ module mkProc(Proc);
       fEpoch <= !fEpoch;
       updatedfEpoch = !fEpoch;
       
-      $display("jump! : datahazard -> fetch side\n");
-      $display("address : %d",updatedPC);
+     // $display("jump! : datahazard -> fetch side\n");
+     // $display("address : %d",updatedPC);
     end
     
     let inst = iMem.req(updatedPC);
@@ -86,12 +83,14 @@ module mkProc(Proc);
     pc <= ppc;
 
     f2d.enq(Fetch2Decode{inst: inst, pc: updatedPC, ppc: ppc, epoch: updatedfEpoch});
-    $display("Fetch : from Pc %d , updatedPC: %d, inst : %x, \n", pc, updatedPC, showInst(inst)); 
+    $display("Fetch :", showInst(inst)); 
 
   endrule
 
   rule doDecode(csrf.started && stat == AOK);
     let inst = f2d.first.inst;
+    $display("Decode :", showInst(inst));
+
     let pc = f2d.first.pc;
     let ppc = f2d.first.ppc;
     let iEpoch = f2d.first.epoch;
@@ -103,11 +102,13 @@ module mkProc(Proc);
       d2r.enq(Decode2Rest{dInst:dInst, pc:pc, ppc:ppc, epoch:iEpoch});
     end
 
-    $display("do decoded");
+   // $display("do decoded");
   endrule
 
   rule doRest(csrf.started && stat == AOK);
     let dInst   = d2r.first.dInst;
+    $display("Rest : Is load or store?", dInst.iType == Ld || dInst.iType == St );
+
     let pc   = d2r.first.pc;
     let ppc    = d2r.first.ppc;
     let iEpoch = d2r.first.epoch;
@@ -124,7 +125,7 @@ module mkProc(Proc);
         if(eInst.mispredict) begin
           eEpoch <= !eEpoch;
           execRedirect.enq(eInst.addr);
-          $display("jump! :mispredicted, address %d ", eInst.addr);
+         // $display("jump! :mispredicted, address %d ", eInst.addr);
         end
 
       //Memory 
@@ -132,12 +133,16 @@ module mkProc(Proc);
       case(iType)
         Ld :
         begin
+		$display("Proc.bsv Rest rule -- Load", eInst.addr);
+		dCache.req(MemReq{op:Ld, addr:eInst.addr, data:?});
 			/* TODO: use dCache for request */
         end
 
         St:
         begin
 			/* TODO: use dCache for request */
+		$display("Proc.bsv Rest rule -- St", eInst.addr);
+		dCache.req(MemReq{op:St, addr:eInst.addr, data:eInst.data});
         end
 
         Unsupported :
@@ -149,17 +154,21 @@ module mkProc(Proc);
 
 	  m12m2.enq(Rest2Memory{iType: eInst.iType,dst:eInst.dst,csr:eInst.csr,data:eInst.data,addr:eInst.addr, mispredict:eInst.mispredict, brTaken:eInst.brTaken });
 	end
-	endrule
 
-	rule doRest2(csrf.started && stat == AOK);
+  endrule
+
+  rule doRest2(csrf.started && stat == AOK);
+
 	m12m2.deq;
-	begin
 	  let eInst = m12m2.first;
+	            $display("Rest2 :");
+
 	  Data ldData =?;
 	  case(eInst.iType)
 		Ld:
 		begin
 		let ldData <- dCache.resp; //
+		$display("Retrived data from dCache: " );
 		eInst.data = ldData;
 		end
 	  endcase
@@ -168,8 +177,6 @@ module mkProc(Proc);
           rf.wr(fromMaybe(?, eInst.dst), eInst.data);
       end
      csrf.wr(eInst.iType == Csrw ? eInst.csr : Invalid, eInst.data);
-    $display("Write Back done");
-
     
     case(eInst.iType)
       J: csrf.incInstTypeCnt(Ctr);
@@ -198,7 +205,6 @@ module mkProc(Proc);
         //default: csrf.incMissInstTypeCnt(Hitunknown);
       endcase
    end    
-  end
   endrule
 
   rule upd_Stat(csrf.started);
