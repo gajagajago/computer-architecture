@@ -142,22 +142,22 @@ module mkCacheSetAssociative (Cache);
 	endrule
 
 	rule startMiss(status == StartMiss);
-		/* TODO: Implement here */
-
 		$display("\n");
                 $display("Entered start miss stage");
 
                 /* TODO: Implement here */
                 // Load + Miss : Request memory. If dirty, request memory to update dirty address.
                 let idx = getIdx(missReq.addr);
-                let tag = tagArray[0].sub(idx);
-                //let setOffset = validValue(checkHit(tag, addr));
+                let tag = tagArray[0].sub(idx);  // CHECK
                 let dirty = dirtyArray[0].sub(idx);
 
         	if (isValid(tag) && dirty) begin
-                        Addr addr = { validValue(tag), idx, 0 };
+			let addr = getBlockAddr(validValue(tag), idx);
                         let data = dataArray[0].sub(idx);
                         memReqQ.enq(CacheMemReq{op:St, addr:addr, data:data, burstLength:fromInteger(valueOf(WordsPerBlock))});
+			// dirty tag .. 
+			dirtyArray[0].upd(idx, False);
+
                 end
 
                 status <= SendFillReq;
@@ -165,63 +165,60 @@ module mkCacheSetAssociative (Cache);
 	endrule
 
 	rule sendFillReq(status == SendFillReq);
-		/* TODO: Implement here */
 		 $display("\n");
                 $display("Entered send fill req");
 		$display("Request to dMem : addr", missReq.addr);
-                /* TODO: Implement here */
-                memReqQ.enq(CacheMemReq{op:missReq.op, addr:missReq.addr, data:?, burstLength:fromInteger(valueOf(WordsPerBlock))});
+		let idx = getIdx(missReq.addr);
+                let tag = getTag(missReq.addr); // Changed frm getTag(missreq.addr) -> tagArray;
+		let offset = getOffset(missReq.addr);
+		//Addr addr = {validValue(tag), idx, offset, 2'b0};
+                //let addr = getBlockAddr(validValue(tag), idx);
+		//let addr = missReq.addr;
+		Addr addr = {tag, idx, 0, 2'b0};
+		$display("r.addr %b", missReq.addr);
+		$display("block addr: %b", getBlockAddr(tag, idx));
+		$display("addr with offset : %b", addr);
+		
+		memReqQ.enq(CacheMemReq{op:missReq.op, addr:addr, data:?, burstLength:fromInteger(valueOf(WordsPerBlock))});
                 status <= WaitFillResp;
-
 	endrule
 
 	rule waitFillResp(status == WaitFillResp);
-		/* TODO: Implement here */
 		                $display("\n");
                 $display("Entered wait fill req");
-		$display("MemRespQ.first = ", memRespQ.first);
-
-                /* TODO: Implement here */
-                let data = memRespQ.first;
+                let receivedBlock = memRespQ.first;
                 let idx = getIdx(missReq.addr);
-                let tag = getTag(missReq.addr);
+                let tag = getTag(missReq.addr); // CHECK
 
-                dataArray[0].upd(idx, data); // temp 0 actually need to find right set
+		$display("Received block from dMem %b", receivedBlock);
+                dataArray[0].upd(idx, receivedBlock);
                 tagArray[0].upd(idx, Valid(tag));
-                dirtyArray[0].upd(idx, False);
-                hitQ.enq(data[0]);
+                //dirtyArray[0].upd(idx, False);
+                let offset = getOffset(missReq.addr); $display("Required block offset: %d", offset);
+
+		$display("[0]: %d", receivedBlock[0]);
+                $display("[1]: %d", receivedBlock[1]);
+		$display("[2]: %d", receivedBlock[2]);
+		$display("[3]: %d", receivedBlock[3]);
+
+		hitQ.enq(receivedBlock[offset]); $display("Returned data to cpu : %d", receivedBlock[offset]);
                 memRespQ.deq;
                 status <= Ready;
-
 	endrule
 
 	method Action req(MemReq r) if (status == Ready && inited);
-
-		let isLoadReq = r.op == Ld;
-
-		//$display("Cache -- request received -- isLoad?", isLoadReq);
-		// If hit, then
-		//     - If r.op == Ld, return the cache value
-		//     - If r.op == St, change the cache value and set as dirty
-		// If not-hit, then
-		//     - If r.op == Ld, send memory load request and wait.
-		//     - If r.op == St, send store request.
-
-		/* TODO: Implement here */
-
-		let tag = getTag(r.addr);
-                let idx = getIdx(r.addr);
-		let currTag = tagArray[0].sub(idx);
-                //let hit = isValid(currTag) ? validValue(currTag) == tag : False;
+		let tag = getTag(r.addr); $display("Tag : %b", tag);
+                let idx = getIdx(r.addr); $display("Addr : %b", idx);
 		let hit = checkHit(tag, idx);
 
                 if (r.op == Ld) begin
-                        $display("Cache -- Load -");
+                        $display("Cache -- Load --", r.addr);
+
                         if (isValid(hit)) begin
-                                Line data = dataArray[0].sub(idx);
-				$display("Hit. DATA = ", data[0]);
-				$display(data);
-                                hitQ.enq(data[0]);
+                                let blockData = dataArray[0].sub(idx);
+				let offset = getOffset(r.addr); $display("Byte offset : %b", offset);
+				let data = blockData[offset]; $display("DATA = %b", data);
+                                hitQ.enq(data); 
                         end
                         else begin
 				$display("Miss. Start request to dMem.");
@@ -229,25 +226,31 @@ module mkCacheSetAssociative (Cache);
                                 status <= StartMiss;
                         end
                 end
-                else if (r.op == St) begin // No Status change when St
+                else if (r.op == St) begin 
                         $display("Cache -- Store -- ", r.addr);
 
                         if (isValid(hit)) begin
 				$display("Hit. DATA = ", r.data);
-                                Line data = replicate(r.data);
-				$display("DATA = ", r.data, " made to line data = ", data);
-                                dataArray[0].upd(idx, data);
+				let currBlockData = dataArray[0].sub(idx);
+				let offset = getOffset(r.addr); $display("byte offset : %b", offset);
+//				$display("curr block[0] %b", currBlockData[0]);				                                 $display("curr block[1] %b", currBlockData[1]);
+  //                              $display("curr block[2] %b", currBlockData[2]);				                                 $display("curr block[3] %b", currBlockData[3]);
+
+				currBlockData[offset] = r.data;
+                                dataArray[0].upd(idx, currBlockData);
                                 dirtyArray[0].upd(idx, True);
                         end
                         else begin
-				$display("Miss. Write no allocate - DATA = ", r.data);
-                                //Line data = { r.data };
-				//Vector# (WordsPerBlock, Data) lineVector = newVector();
-				Line lineVector2 = newVector();
-				lineVector2[0] = r.data;
+				$display("Miss. Write no allocate");
+				$display("Total addr: %b", r.addr);
+				$display("Tag: %b", tag, "   Idx: %b", idx, "   byte offset: %b", getOffset(r.addr));
+                               
+				let storeLine = dataArray[0].sub(idx);
+				storeLine[0] = r.data;
+				$display("data to dmem: %b ", storeLine[0]);
 
-				$display("DATA = ", r.data, " made to line data = ", lineVector2[0]);
-                                memReqQ.enq(CacheMemReq{op:r.op, addr:r.addr, data:lineVector2, burstLength:fromInteger(valueOf(WordsPerBlock))});
+				//let addr = getBlockAddr(tag, idx);
+                                memReqQ.enq(CacheMemReq{op:r.op, addr:r.addr, data:storeLine, burstLength:1});
                         end
                 end
 
