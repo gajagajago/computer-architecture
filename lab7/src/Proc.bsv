@@ -163,10 +163,10 @@ module mkProc(Proc);
 	  case(eInst.iType)
 		Ld:
 		begin
-		$display("DO REST2 RULE FOR LOAD FROM CACHE!");
+//		$display("DO REST2 RULE FOR LOAD FROM CACHE!");
 		let ldData <- dCache.resp; //
 		eInst.data = ldData;
-		$display("LOADED DATA FROM CACHE = ", ldData);
+//		$display("LOADED DATA FROM CACHE = ", ldData);
 		end
 	  endcase
 
