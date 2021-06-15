@@ -114,7 +114,8 @@ module mkCacheSetAssociative (Cache);
 
 	
 
-	/* You can use this function in rules(startMiss,waitFillResp) when implement set associative cache */
+	/* use this function in rules(startMiss,waitFillResp) when implement set associative cache */
+    // return invalid line -> lru
 	function SetOffset findLineToUse(CacheIndex idx);
 		// if empty line exists, use that line.
 		// if empty line doesn't exist, use LRU.
@@ -126,13 +127,11 @@ module mkCacheSetAssociative (Cache);
 		end
 	endfunction
 
-
-
  	let inited = truncateLSB(init) == 1'b1;
 
 	rule initialize(!inited);
 		init <= init + 1;
-		$display("INITIALIZING CACHE");
+		
 		for(Integer i = 0; i< valueOf(LinesPerSet);i = i+1)
 		begin
 			tagArray[i].upd(truncate(init), Invalid);
@@ -142,21 +141,19 @@ module mkCacheSetAssociative (Cache);
 	endrule
 
 	rule startMiss(status == StartMiss);
-		$display("\n");
-                $display("Entered start miss stage");
-
-                /* TODO: Implement here */
-                // Load + Miss : Request memory. If dirty, request memory to update dirty address.
                 let idx = getIdx(missReq.addr);
-                let tag = tagArray[0].sub(idx);  // CHECK
-                let dirty = dirtyArray[0].sub(idx);
+
+		let replacedSetOffset = findLineToUse(idx);
+
+                let tag = tagArray[replacedSetOffset].sub(idx);  
+                let dirty = dirtyArray[replacedSetOffset].sub(idx); 
 
         	if (isValid(tag) && dirty) begin
 			let addr = getBlockAddr(validValue(tag), idx);
-                        let data = dataArray[0].sub(idx);
+                        let data = dataArray[replacedSetOffset].sub(idx); 
                         memReqQ.enq(CacheMemReq{op:St, addr:addr, data:data, burstLength:fromInteger(valueOf(WordsPerBlock))});
-			// dirty tag .. 
-			dirtyArray[0].upd(idx, False);
+			// update dirty array for new line to come
+			dirtyArray[replacedSetOffset].upd(idx, False);
 
                 end
 
@@ -165,91 +162,69 @@ module mkCacheSetAssociative (Cache);
 	endrule
 
 	rule sendFillReq(status == SendFillReq);
-		 $display("\n");
-                $display("Entered send fill req");
-		$display("Request to dMem : addr", missReq.addr);
 		let idx = getIdx(missReq.addr);
-                let tag = getTag(missReq.addr); // Changed frm getTag(missreq.addr) -> tagArray;
+                let tag = getTag(missReq.addr);
 		let offset = getOffset(missReq.addr);
-		//Addr addr = {validValue(tag), idx, offset, 2'b0};
-                //let addr = getBlockAddr(validValue(tag), idx);
-		//let addr = missReq.addr;
 		Addr addr = {tag, idx, 0, 2'b0};
-		$display("r.addr %b", missReq.addr);
-		$display("block addr: %b", getBlockAddr(tag, idx));
-		$display("addr with offset : %b", addr);
-		
+			
 		memReqQ.enq(CacheMemReq{op:missReq.op, addr:addr, data:?, burstLength:fromInteger(valueOf(WordsPerBlock))});
                 status <= WaitFillResp;
 	endrule
 
 	rule waitFillResp(status == WaitFillResp);
-		                $display("\n");
-                $display("Entered wait fill req");
                 let receivedBlock = memRespQ.first;
                 let idx = getIdx(missReq.addr);
-                let tag = getTag(missReq.addr); // CHECK
+		let replacedSetOffset = findLineToUse(idx); 
+                let tag = getTag(missReq.addr);
 
-		$display("Received block from dMem %b", receivedBlock);
-                dataArray[0].upd(idx, receivedBlock);
-                tagArray[0].upd(idx, Valid(tag));
-                //dirtyArray[0].upd(idx, False);
-                let offset = getOffset(missReq.addr); $display("Required block offset: %d", offset);
-
-		$display("[0]: %d", receivedBlock[0]);
-                $display("[1]: %d", receivedBlock[1]);
-		$display("[2]: %d", receivedBlock[2]);
-		$display("[3]: %d", receivedBlock[3]);
-
-		hitQ.enq(receivedBlock[offset]); $display("Returned data to cpu : %d", receivedBlock[offset]);
+                dataArray[replacedSetOffset].upd(idx, receivedBlock); 
+                tagArray[replacedSetOffset].upd(idx, Valid(tag)); 
+		updateLRUArray(idx, replacedSetOffset); 
+              
+                let offset = getOffset(missReq.addr);
+		hitQ.enq(receivedBlock[offset]);
                 memRespQ.deq;
                 status <= Ready;
 	endrule
 
 	method Action req(MemReq r) if (status == Ready && inited);
-		let tag = getTag(r.addr); $display("Tag : %b", tag);
-                let idx = getIdx(r.addr); $display("Addr : %b", idx);
+		let tag = getTag(r.addr);
+                let idx = getIdx(r.addr); 
 		let hit = checkHit(tag, idx);
 
                 if (r.op == Ld) begin
-                        $display("Cache -- Load --", r.addr);
-
                         if (isValid(hit)) begin
-                                let blockData = dataArray[0].sub(idx);
-				let offset = getOffset(r.addr); $display("Byte offset : %b", offset);
-				let data = blockData[offset]; $display("DATA = %b", data);
+				let setOffset = validValue(hit);
+                                let blockData = dataArray[setOffset].sub(idx);
+				
+				updateLRUArray(idx, setOffset);
+
+				let offset = getOffset(r.addr); 
+				let data = blockData[offset]; 
                                 hitQ.enq(data); 
                         end
                         else begin
-				$display("Miss. Start request to dMem.");
                                 missReq <= r;
                                 status <= StartMiss;
                         end
                 end
                 else if (r.op == St) begin 
-                        $display("Cache -- Store -- ", r.addr);
-
                         if (isValid(hit)) begin
-				$display("Hit. DATA = ", r.data);
-				let currBlockData = dataArray[0].sub(idx);
-				let offset = getOffset(r.addr); $display("byte offset : %b", offset);
-//				$display("curr block[0] %b", currBlockData[0]);				                                 $display("curr block[1] %b", currBlockData[1]);
-  //                              $display("curr block[2] %b", currBlockData[2]);				                                 $display("curr block[3] %b", currBlockData[3]);
+				let setOffset = validValue(hit); 
+
+				let currBlockData = dataArray[setOffset].sub(idx);
+				let offset = getOffset(r.addr); 
 
 				currBlockData[offset] = r.data;
-                                dataArray[0].upd(idx, currBlockData);
-                                dirtyArray[0].upd(idx, True);
+                                dataArray[setOffset].upd(idx, currBlockData);
+                                dirtyArray[setOffset].upd(idx, True);
+				updateLRUArray(idx, setOffset);
                         end
                         else begin
-				$display("Miss. Write no allocate");
-				$display("Total addr: %b", r.addr);
-				$display("Tag: %b", tag, "   Idx: %b", idx, "   byte offset: %b", getOffset(r.addr));
-                               
+				// no need to tract exact dataArray line .. leave to 0 not setOffset
 				let storeLine = dataArray[0].sub(idx);
 				storeLine[0] = r.data;
-				$display("data to dmem: %b ", storeLine[0]);
 
-				//let addr = getBlockAddr(tag, idx);
                                 memReqQ.enq(CacheMemReq{op:r.op, addr:r.addr, data:storeLine, burstLength:1});
                         end
                 end

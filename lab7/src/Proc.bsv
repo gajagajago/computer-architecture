@@ -132,15 +132,13 @@ module mkProc(Proc);
       case(iType)
         Ld :
         begin
-		$display("***LOAD*** addr: ", eInst.addr);
+		//$display("***LOAD*** addr: ", eInst.addr);
 		dCache.req(MemReq{op:Ld, addr:eInst.addr, data:?});
-
-		/* TODO: use dCache for request */
         end
 
         St:
         begin
-		$display("***STORE*** addr: ", eInst.addr, " data: ", eInst.data);
+		//$display("***STORE*** addr: ", eInst.addr, " data: ", eInst.data);
 		dCache.req(MemReq{op:St, addr:eInst.addr, data:eInst.data});
 
 			/* TODO: use dCache for request */
