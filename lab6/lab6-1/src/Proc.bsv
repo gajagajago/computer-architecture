@@ -155,7 +155,7 @@ module mkProc(Proc);
   rule doWriteBack(csrf.started);
 	  let eInst = m2w.first.eInst;
 	  
-	  if (isValid(eInst.dst)) rf.wr(fromMaybe(?, eInst.dst), eInst.data);
+	  if (isValid(eInst.dst)) rf.wr(validValue(eInst.dst), eInst.data);
 	  csrf.wr(eInst.iType == Csrw ? eInst.csr : Invalid, eInst.data);
 	  
 	  sb.remove;
