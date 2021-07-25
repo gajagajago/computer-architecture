@@ -11,6 +11,7 @@ import CsrFile::*;
 import Fifo::*;
 import Scoreboard::*;
 import GetPut::*;
+import Btb::*;
 
 typedef struct {
   Instruction inst;
@@ -37,6 +38,7 @@ typedef struct {
 	ExecInst eInst;
 } Memory2WriteBack deriving(Bits, Eq);
 
+typedef 11 IndexSize;
 
 (*synthesize*)
 module mkProc(Proc);
@@ -60,7 +62,11 @@ module mkProc(Proc);
   Fifo#(1, Memory2WriteBack)  m2w <- mkPipelineFifo;
 
   // Data hazard handling Element : Scoreboard
-  Scoreboard#(4) sb <- mkPipelineScoreboard;
+  Scoreboard#(3) sb <- mkPipelineScoreboard;
+
+  // Prediction module : BTB (Direct-Mapped Cache)
+  //typedef 4 indexSize;
+  Btb#(IndexSize) btb <- mkBtb;
 
 /* TODO: Lab 6-1: Implement 5-stage pipelined processor with scoreboard. */
   rule doFetch(csrf.started);
@@ -73,7 +79,7 @@ module mkProc(Proc);
 	  	  let inst = iMem.req(pc);
 		  $display(showInst(inst));
       	    	  $display("pc: ", pc);
-		  let ppc = pc + 4;
+		  let ppc = btb.predPc(pc);
 	  	  f2d.enq(Fetch2Decode{inst:inst, pc:pc, ppc:ppc, epoch:fEpoch});
 	  	  pc <= ppc;
  	  end
@@ -126,7 +132,12 @@ module mkProc(Proc);
 			  eEpoch <= !eEpoch;
 			  execRedirect.enq(eInst.addr);
 			  execRedirectToDecode.enq(eInst.addr);
+			  //btb.update(pc, eInst.addr);
 		  end
+
+		  if(eInst.iType == Br || eInst.iType == J || eInst.iType == Jr) begin
+			  btb.update(pc, eInst.addr);
+		  end 
 	  end
 
 	  d2e.deq;
